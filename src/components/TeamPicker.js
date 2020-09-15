@@ -1,75 +1,86 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {loadTeamsRoster, loadTeamIds} from '../store/actions/teamActions'
+import {loadRosters} from '../store/actions/teamActions'
+import { Scrollbars } from 'react-custom-scrollbars';
 import './styles.css'
 
 class TeamPicker extends Component {
     state ={
-        teamIds: [],
         teamRoster: []
     }
     componentDidMount(){
-        this.props.loadTeamIds()
-        .then(this.setState({
-            teamIds: this.props.teamIds
-        }))
-        this.props.loadTeamsRoster(1)
+        this.props.loadRosters()
         .then(this.setState({
             teamRoster: this.props.teamRoster
         }))
     }
 
     componentDidUpdate(prevProps){
-        // TODO: Figure out how to clean this up
         if(prevProps.teamRoster != this.props.teamRoster){
             this.setState({
-                teamRoster: [...this.state.teamRoster, ...this.props.teamRoster]
-            })
-        }
-        if(prevProps.teamIds !== this.props.teamIds){
-            this.setState({
-                ...this.state,
-                teamIds: this.props.teamIds
-            }, () => {
-                this.state.teamIds.forEach(teamId => {
-                    this.setState({
-                        teamRoster: []
-                    })
-                    this.props.loadTeamsRoster(teamId)
-                })
+                teamRoster: this.props.teamRoster
             })
         }
     }
+
+    sortDivs = (playerList) => {
+        let sortedlist = playerList.sort((a, b) => a.fullName > b.fullName ? 1 : -1)
+        var sortedlistDivs = []
+        console.log(sortedlist)
+        sortedlist.forEach(player => {
+            sortedlistDivs.push(
+            <div key={sortedlistDivs.length} className="player-div">
+                {player.fullName}
+                <span class="alignright">{player.team}</span>
+            </div>)
+        })
+        console.log(sortedlistDivs)
+        return <Scrollbars style={{height: 600 }}>{sortedlistDivs}</Scrollbars>
+    }
+
     render() {
         let forwards = []
-        let defence = []
+        let defense = []
         let goalies = []
         if(this.state.teamRoster) {
             this.state.teamRoster.forEach(player => {
-                if(player.position.type === "Forward"){
-                    forwards.push(player.person.fullName)
-                } else if (player.position.type === "Defenseman"){
-                    defence.push(<p>{player.person.fullName}</p>)
-                } else if (player.position.type === "Goalie"){
-                    goalies.push(<p>{player.person.fullName}</p>)
+                var currPlayer = {
+                    fullName: player.fullName,
+                    team: player.team,
+                    position: player.position
+                }
+                if(player.position === "Forward"){
+                    forwards.push(currPlayer)
+                } else if (player.position === "Defenseman"){
+                    defense.push(currPlayer)
+                } else if (player.position === "Goalie"){
+                    goalies.push(currPlayer)
                 }
             })
         }
-        console.log("Players", forwards)
-        console.log("Defence", defence)
-        console.log("goalies", goalies)
-        let forwardsSorted = forwards.sort()
-        var forwardsSortedDivs = []
-        forwardsSorted.forEach(player => {
-            forwardsSortedDivs.push(<p>{player}</p>)
-        })
+        if(forwards.length > 0){
+            var forwardsSortedDivs = this.sortDivs(forwards)
+        }
+        if(defense.length > 0) {
+            var defenseSortedDivs = this.sortDivs(defense)
+        }
+        if(goalies.length > 0){
+            var goaliesSortedDivs = this.sortDivs(goalies)
+        }
+        
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col s12">Team Picker</div>
-                    <div className="col s6"><h5 className="center">Forwards</h5> {forwardsSortedDivs}</div>
-                    <div className="col s6"><h5 className="center">Defence</h5> {defence}</div>
-                    <div className="col s6"><h5 className="center">Goalies</h5> {goalies}</div>
+            <div className="inside-container">
+                    <div className="side-by-side-container">
+                        <div className="side-container">
+                            <h5 className="center">Forwards</h5>
+                            {forwardsSortedDivs}</div>
+                        <div className="side-container">
+                            <h5 className="center">Defence</h5>
+                            {defenseSortedDivs}
+                        </div>
+                        <div className="side-container">
+                            <h5 className="center">Goalies</h5> {goaliesSortedDivs}
+                        </div>
                 </div>
             </div>
         )
@@ -77,15 +88,12 @@ class TeamPicker extends Component {
 }
 const mapStateToProps = state => {
     return {
-        teamRoster: state.teamRoster,
-        teamIds: state.teamIds
-        // teams: state.teams
+        teamRoster: state.teamRoster
     };
 };
 
 const mapDispatchToProps = {
-    loadTeamsRoster,
-    loadTeamIds
+    loadRosters
 };
 
 export default connect(

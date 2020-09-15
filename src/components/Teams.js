@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {loadTeams} from '../store/actions/teamActions'
 /*
 Team:
 {
@@ -47,10 +46,7 @@ class Teams extends Component {
         teams: []
     }
     componentDidMount(){
-        this.props.loadTeams()
-        .then(this.setState({
-            teams: this.props.teams
-        }))
+
     }
 
     componentDidUpdate(prevProps){
@@ -111,7 +107,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    loadTeams
 };
 
 export default connect(

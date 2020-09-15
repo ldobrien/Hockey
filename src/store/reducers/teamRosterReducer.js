@@ -1,14 +1,29 @@
 import initialState from './initialState'
 
-export const loadTeamRosterData = (state, action) => {
-    // console.log("RETURNING", action.teamRoster.teams[0].roster)
-    return action.teamRoster.teams[0].roster.roster
+export const addPlayersToRoster = (state, action) => {
+    var addroster = []
+    action.teamRoster.forEach(actionPlayer => {
+        if(state.filter(player => player.id === actionPlayer.person.id).length === 0 ){
+            var currPlayer = {
+                jerseyNumber: actionPlayer.jerseyNumber,
+                id: actionPlayer.person.id,
+                fullName: actionPlayer.person.fullName,
+                position: actionPlayer.position.type,
+                position_name: actionPlayer.position.name,
+                team: action.team.name,
+                teamId: action.team.id,
+                conference: action.team.division.name
+            }
+            addroster.push(currPlayer)
+        }
+    });
+    return [...state, ...addroster]
 }
 
 const teamRosterReducer = (state = initialState.teamRoster, action) => {
     switch(action.type){
-        case 'LOAD_TEAM_ROSTER':
-          return loadTeamRosterData(state, action);
+        case 'ADD_PLAYERS_TO_ROSTER':
+          return addPlayersToRoster(state, action);
         default:
             return state;
     }
