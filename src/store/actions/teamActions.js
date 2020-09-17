@@ -20,3 +20,25 @@ export const loadRosters = () => {
             })
     }
 }
+
+export const submitTeam = (team) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection('chosenTeam').add({
+            id: "auth",
+            team: team
+        })
+        .then(() => {
+            dispatch(
+                {
+                  type: "CREATE_TEAM",
+                  team: team
+                }
+            )
+        })
+        .catch((err) => {
+            console.log("ERROR: ", err)
+        })
+        
+    }
+}

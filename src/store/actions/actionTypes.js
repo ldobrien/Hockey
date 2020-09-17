@@ -1,1 +1,2 @@
 export const ADD_PLAYERS_TO_ROSTER = 'ADD_PLAYERS_TO_ROSTER';
+export const CREATE_TEAM = 'CREATE_TEAM';

@@ -4,8 +4,6 @@ import { Link, NavLink } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 
 class Navbar extends Component {
-    state ={
-    }
     render() {
         return (
             <div className="App">
@@ -14,6 +12,8 @@ class Navbar extends Component {
                  <ul id="nav-mobile" className="right hide-on-med-and-down">
                     <li><Link className="linkTitle" to="/">Home</Link></li>
                     <li><Link className="linkTitle" to="/Teams">Teams</Link></li>
+                    <li><Link className="linkTitle" to="/SignUp">Sign Up</Link></li>
+                    <li><Link className="linkTitle" to="/SignIn">Sign In</Link></li>
                  </ul>
               </div>
             </nav>
