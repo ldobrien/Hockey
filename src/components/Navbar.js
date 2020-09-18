@@ -14,6 +14,7 @@ class Navbar extends Component {
                     <li><Link className="linkTitle" to="/Teams">Teams</Link></li>
                     <li><Link className="linkTitle" to="/SignUp">Sign Up</Link></li>
                     <li><Link className="linkTitle" to="/SignIn">Sign In</Link></li>
+                    <li><Link className="linkTitle" to="/scoreboard">Scoreboard</Link></li>
                  </ul>
               </div>
             </nav>

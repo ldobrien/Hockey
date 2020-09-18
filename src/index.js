@@ -16,7 +16,7 @@ import firebase from "./config/fbConfig"
 import 'firebase/firestore'
 
 const rrfConfig = { 
-  userProfile: 'projects',
+  userProfile: 'chosenTeam', // TODO
   useFirestoreForProfile: true
 }
 

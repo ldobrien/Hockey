@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {loadRosters, submitTeam} from '../store/actions/teamActions'
 import { Scrollbars } from 'react-custom-scrollbars';
 import Button from '@material-ui/core/Button';
+import {compose} from 'redux'
+import { firestoreConnect } from 'react-redux-firebase';
 import './styles.css'
 
 class TeamPicker extends Component {
@@ -33,7 +35,6 @@ class TeamPicker extends Component {
     }
 
     playerClicked = (position, id) => {
-        // TODO: Need to limit the number of players they can select
         var deselect = this.state.selectedPlayers.includes(id)
         if(position === "Forward"){
             if(deselect){
@@ -166,6 +167,7 @@ class TeamPicker extends Component {
     }
 }
 const mapStateToProps = state => {
+    console.log(state)
     return {
         teamRoster: state.teamRoster
     };
@@ -176,7 +178,10 @@ const mapDispatchToProps = {
     submitTeam
 };
 
-export default connect(
+export default compose(
+    // firestoreConnect(() => ['chosenTeam']),
+    
+    connect(
     mapStateToProps,
-    mapDispatchToProps,
-)(TeamPicker);
+    mapDispatchToProps,)
+, firestoreConnect([{collection: 'chosenTeam'}]))(TeamPicker);
