@@ -1,4 +1,5 @@
 export default {
     teamRoster: [],
-    selectedTeams: []
+    selectedTeams: [],
+    auth: {}
 };
