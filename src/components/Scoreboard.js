@@ -16,19 +16,32 @@ class Scoreboard extends Component {
     }
 
     render() {
-        
-        console.log("STATE", this.props.chosenTeam)
+        console.log(this.props.chosenTeams)
+        let teams = []
+        if(!this.props.chosenTeams){
+            console.log("NULL")
+            return (
+                <div>
+                    
+                </div>)
+        }
+        var keys = Object.keys(this.props.chosenTeams)
+
+        for(var index = 0; index < keys.length; index++){
+            var team = this.props.chosenTeams[keys[index]]
+            teams.push(<p key={teams.length}>{team.email}</p>)
+        }
+
         return (
             <div className="inside-container">
-                
+                {teams}
             </div>
         )
     }
 }
 const mapStateToProps = state => {
-    console.log(state)
     return {
-        chosenTeam: state.firestore.data.chosenTeam
+        chosenTeams: state.firestore.data.chosenTeam
     };
 };
 
@@ -38,8 +51,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-    // firestoreConnect(() => ['chosenTeam']),
-    
     connect(
     mapStateToProps,
     mapDispatchToProps,)

@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import './styles.css'
+import { strict } from 'assert';
+import { string } from 'prop-types';
 
 class TeamPicker extends Component {
     state ={
@@ -27,60 +29,48 @@ class TeamPicker extends Component {
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.teamRoster !== this.props.teamRoster){
+        if(prevProps.teamRoster.length !== this.props.teamRoster.length){
             this.setState({
                 teamRoster: this.props.teamRoster
             })
         }
     }
 
+    selectionLogic = (field, deselect, limit, position) => {
+        if(deselect){
+            this.setState({
+                [field]: this.state[field] - 1,
+                error: ""
+            })
+        } 
+        else if(this.state[field] === this.state[limit]){
+            console.log("ERROR")
+            this.setState({
+                error: "Error: You have hit the limit of " + this.state[limit] + " " + position + " players"
+            })
+            return "Error: Limit hit"
+        } 
+        else {
+            this.setState({
+                [field]: this.state[field] + 1,
+                error: ""
+            })
+        }
+        return null
+    }
+
     playerClicked = (position, id) => {
         var deselect = this.state.selectedPlayers.includes(id)
+        var error = null
         if(position === "Forward"){
-            if(deselect){
-                this.setState({
-                    selectedForwards: this.state.selectedForwards -1
-                })
-            } 
-            else if(this.state.numberOfForwards === this.state.selectedForwards){
-                console.log("ERROR")
-                return
-            } 
-            else {
-                this.setState({
-                    selectedForwards: this.state.selectedForwards + 1
-                })
-            }
+            error = this.selectionLogic("selectedForwards", deselect, "numberOfForwards", position)
         } else if (position === "Defenseman"){
-            if(deselect){
-                this.setState({
-                    selectedDefense: this.state.selectedDefense -1
-                })
-            } 
-            else if(this.state.numberOfDefense === this.state.selectedDefense){
-                console.log("ERROR")
-                return
-            } 
-            else {
-                this.setState({
-                    selectedDefense: this.state.selectedDefense + 1
-                })
-            }
+            error = this.selectionLogic("selectedDefense", deselect, "numberOfDefense", position)
         } else if (position === "Goalie"){
-            if(deselect){
-                this.setState({
-                    selectedGoalies: this.state.selectedGoalies -1
-                })
-            } 
-            else if(this.state.numberOfGoalies === this.state.selectedGoalies){
-                console.log("ERROR")
-                return
-            } 
-            else {
-                this.setState({
-                    selectedGoalies: this.state.selectedGoalies + 1
-                })
-            }
+            error = this.selectionLogic("selectedGoalies", deselect, "numberOfGoalies", position)
+        }
+        if(error != null) {
+            return
         }
         var selectedPlayers = this.state.selectedPlayers.includes(id) 
             ? this.state.selectedPlayers.filter(player => player !== id) 
@@ -92,7 +82,7 @@ class TeamPicker extends Component {
     }
 
     onSubmit = () => {
-        this.props.submitTeam(this.state.selectedPlayers)
+        this.props.submitTeam(this.state.selectedPlayers, this.props.auth)
     }
 
     sortDivs = (playerList) => {
@@ -157,6 +147,7 @@ class TeamPicker extends Component {
                         <h5 className="center">Goalies</h5> {goaliesSortedDivs}
                     </div>
                 </div>
+                <p className="red-text center">{this.state.error}</p>
                 <div className="center">
                     <Button variant="contained" color="secondary" onClick={this.onSubmit}>
                         Submit
@@ -167,9 +158,10 @@ class TeamPicker extends Component {
     }
 }
 const mapStateToProps = state => {
-    console.log(state)
+    console.log(state, state.firebase.auth.uid)
     return {
-        teamRoster: state.teamRoster
+        teamRoster: state.teamRoster,
+        auth: state.firebase.auth
     };
 };
 
@@ -179,8 +171,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-    // firestoreConnect(() => ['chosenTeam']),
-    
     connect(
     mapStateToProps,
     mapDispatchToProps,)

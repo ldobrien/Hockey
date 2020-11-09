@@ -57,7 +57,6 @@ class Teams extends Component {
         }
     }
     render() {
-        console.log(this.state.teams)
         let MetropolitanTeams = []
         let AtlanticTeams = []
         let CentralTeams = []

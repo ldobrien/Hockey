@@ -2,6 +2,7 @@ import initialState from './initialState'
 
 export const addPlayersToRoster = (state, action) => {
     var addroster = []
+    console.log("players")
     action.teamRoster.forEach(actionPlayer => {
         if(state.filter(player => player.id === actionPlayer.person.id).length === 0 ){
             var currPlayer = {
@@ -20,10 +21,17 @@ export const addPlayersToRoster = (state, action) => {
     return [...state, ...addroster]
 }
 
+export const sortRoster = (state, action) => {
+    console.log("sorting...", action)
+    return state
+}
+
 const teamRosterReducer = (state = initialState.teamRoster, action) => {
     switch(action.type){
         case 'ADD_PLAYERS_TO_ROSTER':
           return addPlayersToRoster(state, action);
+        case 'SORT_ROSTER':
+            return sortRoster(state, action);
         default:
             return state;
     }

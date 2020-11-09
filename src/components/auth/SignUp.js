@@ -16,6 +16,7 @@ class SignUp extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
+        // TODO
         console.log(this.state)
     }
 

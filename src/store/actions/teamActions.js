@@ -21,11 +21,13 @@ export const loadRosters = () => {
     }
 }
 
-export const submitTeam = (team) => {
+export const submitTeam = (team, auth) => {
+    console.log(team, auth.uid)
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
-        firestore.collection('chosenTeam').add({
-            id: "auth",
+        firestore.collection('chosenTeam').doc(auth.uid).set({
+            id: auth.uid,
+            email: auth.email,
             team: team
         })
         .then(() => {

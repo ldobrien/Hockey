@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 class Navbar extends Component {
     
     render() {
-        const authentication = this.props.auth.email 
+        console.log("NAVBAR:", this.props.auth)
+        const authentication = this.props.auth
         return (
             <div className="App">
             <nav>
@@ -19,7 +20,7 @@ class Navbar extends Component {
                     {!authentication && <li><Link className="linkTitle" to="/SignUp">Sign Up</Link></li>}
                     {!authentication && <li><Link className="linkTitle" to="/SignIn">Sign In</Link></li>}
                     <li><Link className="linkTitle" to="/scoreboard">Scoreboard</Link></li>
-                    {authentication && <li><Link onClick={this.props.signOut} className="linkTitle">Log Out</Link></li>}
+                    {authentication && <li><Link onClick={this.props.signOut} to="/SignIn" className="linkTitle">Log Out</Link></li>}
                  </ul>
               </div>
             </nav>
@@ -32,9 +33,8 @@ const mapDistpatchToProps = {
     signOut
 }
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
-        auth: state.auth
+        auth: state.firebase.auth.uid
     }
 }
 
