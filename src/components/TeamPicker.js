@@ -5,14 +5,13 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
+import { Redirect } from 'react-router-dom'
 import './styles.css'
-import { strict } from 'assert';
-import { string } from 'prop-types';
 
 class TeamPicker extends Component {
     state ={
         teamRoster: [],
-        selectedPlayers: [],
+        selectedPlayers: {},
         selectedForwards: 0,
         selectedDefense: 0,
         selectedGoalies: 0,
@@ -59,8 +58,10 @@ class TeamPicker extends Component {
         return null
     }
 
-    playerClicked = (position, id) => {
-        var deselect = this.state.selectedPlayers.includes(id)
+    playerClicked = (player) => {
+        let position = player.position
+        let id = player.id
+        var deselect = Object.keys(this.state.selectedPlayers).includes(id.toString())
         var error = null
         if(position === "Forward"){
             error = this.selectionLogic("selectedForwards", deselect, "numberOfForwards", position)
@@ -72,9 +73,13 @@ class TeamPicker extends Component {
         if(error != null) {
             return
         }
-        var selectedPlayers = this.state.selectedPlayers.includes(id) 
-            ? this.state.selectedPlayers.filter(player => player !== id) 
-            : [...this.state.selectedPlayers, id]
+        let selectedPlayers = this.state.selectedPlayers
+        if(Object.keys(this.state.selectedPlayers).includes(id.toString())){
+            delete selectedPlayers[id]
+        }
+        else {
+            selectedPlayers[id] = player
+        }
         
         this.setState({
             selectedPlayers
@@ -91,9 +96,9 @@ class TeamPicker extends Component {
         sortedlist.forEach(player => {
             sortedlistDivs.push(
             <div 
-                onClick={() => this.playerClicked(player.position, player.id)} 
+                onClick={() => this.playerClicked(player)} 
                 key={sortedlistDivs.length} 
-                className={this.state.selectedPlayers.includes(player.id) ? "player-div green" : "player-div"}
+                className={Object.keys(this.state.selectedPlayers).includes(player.id.toString()) ? "player-div green" : "player-div"}
                 >
                 {player.fullName}
                 <span className="alignright">{player.team}</span>
@@ -103,6 +108,7 @@ class TeamPicker extends Component {
     }
 
     render() {
+        if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
         let forwards = []
         let defense = []
         let goalies = []
@@ -158,7 +164,6 @@ class TeamPicker extends Component {
     }
 }
 const mapStateToProps = state => {
-    console.log(state, state.firebase.auth.uid)
     return {
         teamRoster: state.teamRoster,
         auth: state.firebase.auth

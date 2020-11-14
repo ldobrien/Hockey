@@ -1,12 +1,11 @@
 import initialState from './initialState'
 
 export const login = (state, action) => {
-    console.log("ACTION", action)
-    return {email: action.email, error: ""}
+    return {email: action.email, loginError: ""}
 }
 
 export const loginError = (state, action) => {
-    return {...state, error: action.error}
+    return {...state, loginError: action.error.message}
 }
 
 export const signOut = (state, action) => {
@@ -14,7 +13,15 @@ export const signOut = (state, action) => {
 }
 
 export const signOutError = (state, action) => {
-    return {...state, error: action.error}
+    return {...state, authError: action.error}
+}
+
+export const signUpSuccess = (state, action) => {
+    return {...state, authError: null}
+}
+
+export const signUpError = (state, action) => {
+    return {...state, authError: action.err}
 }
 
 const authReducer = (state = initialState.auth, action) => {
@@ -27,6 +34,10 @@ const authReducer = (state = initialState.auth, action) => {
             return signOut(state, action);
         case 'SIGNOUT_ERROR':
             return signOutError(state, action);
+        case 'SIGNUP_SUCCESS':
+            return signUpSuccess(state, action);
+        case 'SIGNUP_ERROR':
+            return signUpError(state, action);
         default:
             return state;
     }

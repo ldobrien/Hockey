@@ -22,7 +22,6 @@ export const loadRosters = () => {
 }
 
 export const submitTeam = (team, auth) => {
-    console.log(team, auth.uid)
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         firestore.collection('chosenTeam').doc(auth.uid).set({
@@ -39,7 +38,10 @@ export const submitTeam = (team, auth) => {
             )
         })
         .catch((err) => {
-            console.log("ERROR: ", err)
+            dispatch({
+                type: "CREATE_TEAM_ERROR",
+                err: err
+            })
         })
         
     }

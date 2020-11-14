@@ -1,5 +1,6 @@
 export default {
     teamRoster: [],
     selectedTeams: [],
-    auth: {}
+    auth: {},
+    scoreboard: []
 };
