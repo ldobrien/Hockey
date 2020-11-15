@@ -65,7 +65,6 @@ class TeamStats extends Component {
 
         let playerList = []
         entry.forEach(player => {
-            console.log("player,", player)
             teamTotalPoints += this.getPlayerPoints(player)
             if(player.position === "Goalie" && display === false){
                 display = true

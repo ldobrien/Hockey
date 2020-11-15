@@ -97,8 +97,7 @@ class Scoreboard extends Component {
         for(var index = 0; index < keys.length; index++){
             var teamDiv = this.filterTeam(this.state.scoreboard[keys[index]])
             var team = this.props.chosenTeams[keys[index]]
-
-            teams.push(<div key={teams.length}>{team.email}</div>)
+            teams.push(<div key={teams.length}>{team.displayName}</div>)
             teamDivs.push(teamDiv)
         }
         

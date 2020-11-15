@@ -1,7 +1,7 @@
 import initialState from './initialState'
 
 export const login = (state, action) => {
-    return {email: action.email, loginError: ""}
+    return {email: action.email, displayName: action.displayName, loginError: ""}
 }
 
 export const loginError = (state, action) => {

@@ -8,7 +8,8 @@ export const signIn = (credentials) => {
         .then(() => {
             dispatch({
                 type: 'LOGIN_SUCCESS',
-                email: credentials.email
+                email: credentials.email,
+                displayName: credentials.displayName,
             })
         })
         .catch((err) => {
@@ -40,9 +41,7 @@ export const signUp = (newUser) => {
             newUser.password
         ).then((response)=> {
             return firestore.collection('users').doc(response.user.uid).set({
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                initials: newUser.firstName[0] + newUser.lastName[0]
+                displayName: newUser.displayName,
             })
         }).then(() => {
             dispatch({

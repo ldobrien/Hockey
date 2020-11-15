@@ -27,7 +27,8 @@ export const submitTeam = (team, auth) => {
         firestore.collection('chosenTeam').doc(auth.uid).set({
             id: auth.uid,
             email: auth.email,
-            team: team
+            team: team,
+            displayname: auth.displayName
         })
         .then(() => {
             dispatch(
