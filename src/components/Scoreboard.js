@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {compose} from 'redux';
 import {loadScoreboard} from '../store/actions/scoreboardActions'
 import { firestoreConnect } from 'react-redux-firebase';
+import TeamStats from './TeamStats'
 import './styles.css'
 
 class Scoreboard extends Component {
@@ -73,41 +74,6 @@ class Scoreboard extends Component {
         return [...playerStatsArr, ...goalieStatsArr]
     }
 
-    renderPlayers = (players) => {
-        let points = this.getPlayerPoints(players)
-        if(players.position === "Goalie"){
-            return (
-                <div className="row" key={players.name}>
-                    <div className="col s2">{players.name}</div>
-                    <div className="col s2">{players.wins}</div>
-                    <div className="col s2">{players.shutouts}</div>
-                    <div className="col s2">{players.goals}</div>
-                    <div className="col s2">{players.assists}</div>
-                    <div className="col s2">{points}</div>
-                </div>
-            )
-        }
-        return (
-            <div className="row" key={players.name}>
-                <div className="col s3">{players.name}</div>
-                <div className="col s3">{players.goals}</div>
-                <div className="col s3">{players.assists}</div>
-                <div className="col s3">{points}</div>
-            </div>
-        )
-        
-    }
-
-    getPlayerPoints = (player) => {
-        if(player.position === "Goalie"){
-            return player.goals * this.state.goalieGoalValue 
-            + player.assists * this.state.goalieAssistValue
-            + player.wins * this.state.winValue
-            + player.shutouts * this.state.shutoutValue
-        }
-        return player.goals * this.state.goalValue + player.assists * this.state.assistValue
-    }
-
     render() {
         if(Object.keys(this.state.scoreboard).length === 0){
             setTimeout(() => {
@@ -115,16 +81,17 @@ class Scoreboard extends Component {
                     scoreboard: this.props.scoreboard
                 })
             }, 100)
-            
         }
-        
-        let teams = []
         if(!this.props.chosenTeams){
             return (
                 <div>
                     
                 </div>)
         }
+
+        const teamScoreboards = []
+        const teams = []
+
         var keys = Object.keys(this.props.chosenTeams)
         var teamDivs = []
         for(var index = 0; index < keys.length; index++){
@@ -134,50 +101,10 @@ class Scoreboard extends Component {
             teams.push(<div key={teams.length}>{team.email}</div>)
             teamDivs.push(teamDiv)
         }
-        const teamScoreboards = []
+        
         
         teamDivs.forEach((entry, index) => {
-            let teamHeader = []
-            let teamTotalPoints = 0
-            let display = false
-
-            let playerList = []
-            entry.forEach(player => {
-                teamTotalPoints += this.getPlayerPoints(player)
-                if(player.position === "Goalie" && display === false){
-                    display = true
-                    playerList.push(
-                        <div className="row" key={playerList.length}>
-                            <hr/>
-                            <p>Goalies</p>
-                            <div className="col s2">Name:</div>
-                            <div className="col s2">Wins</div>
-                            <div className="col s2">Shutouts</div>
-                            <div className="col s2">Goals</div>
-                            <div className="col s2">Assists</div>
-                            <div className="col s2">Points</div>
-                        </div>
-                    )
-                }
-
-                const render = this.renderPlayers(player)
-                playerList.push(render)
-            })
-
-            teamHeader.push(
-                <div className="row" key={teamHeader.length}>
-                    <hr/>
-                    <div>{teams[index]} ({teamTotalPoints})</div>
-                    <p>Players</p>
-                    <div className="col s3">Name</div>
-                    <div className="col s3">Goals</div>
-                    <div className="col s3">Assists</div>
-                    <div className="col s3">Points</div>
-                </div>
-            )
-            
-            teamScoreboards.push(teamHeader)
-            teamScoreboards.push(playerList)
+            teamScoreboards.push(<TeamStats key={teamScoreboards.length} entry={entry} teams={teams} index={index}/>)
             
         })
 
