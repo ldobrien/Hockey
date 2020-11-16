@@ -2,7 +2,7 @@ import initialState from './initialState'
 
 export const getScoreboard = (state, action) => {
     let prevState = state[action.key] ? state[action.key] : []
-    let newState = state
+    let newState = {...state}
     let newPlayer = action.payload
     newPlayer.player = action.player
     newState[action.key] = [...prevState, newPlayer]

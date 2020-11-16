@@ -87,7 +87,7 @@ class TeamPicker extends Component {
     }
 
     onSubmit = () => {
-        this.props.submitTeam(this.state.selectedPlayers, this.props.auth)
+        this.props.submitTeam(this.state.selectedPlayers, this.props.auth, this.props.displayName)
     }
 
     sortDivs = (playerList) => {
@@ -166,7 +166,8 @@ class TeamPicker extends Component {
 const mapStateToProps = state => {
     return {
         teamRoster: state.teamRoster,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        displayName: state.firebase.profile.displayName
     };
 };
 

@@ -2,30 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {compose} from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import {getPlayerPoints} from './PlayerStats'
 import './styles.css'
 
 class TeamStats extends Component {
     state ={
         scoreboard: this.props.scoreboard,
-        goalValue: 2,
-        assistValue: 1,
-        winValue: 1,
-        shutoutValue: 1,
-        goalieGoalValue: 10,
-        goalieAssistValue: 1
-    }
-
-    componentDidMount(){
-    }
-
-    componentDidUpdate(prevProps){
     }
 
     renderPlayers = (players) => {
-        let points = this.getPlayerPoints(players)
+        let points = getPlayerPoints(players)
         if(players.position === "Goalie"){
+            let key = players.name + this.props.index
             return (
-                <div className="row" key={players.name}>
+                <div className="row" key={key}>
                     <div className="col s2">{players.name}</div>
                     <div className="col s2">{players.wins}</div>
                     <div className="col s2">{players.shutouts}</div>
@@ -43,29 +33,16 @@ class TeamStats extends Component {
                 <div className="col s3">{points}</div>
             </div>
         )
-        
-    }
-
-    getPlayerPoints = (player) => {
-        if(player.position === "Goalie"){
-            return player.goals * this.state.goalieGoalValue 
-            + player.assists * this.state.goalieAssistValue
-            + player.wins * this.state.winValue
-            + player.shutouts * this.state.shutoutValue
-        }
-        return player.goals * this.state.goalValue + player.assists * this.state.assistValue
     }
 
     render() {
-        const {entry, teams, index} = this.props
+        const {entry} = this.props
 
         const teamScoreboards = []
-        let teamTotalPoints = 0
         let display = false
 
         let playerList = []
         entry.forEach(player => {
-            teamTotalPoints += this.getPlayerPoints(player)
             if(player.position === "Goalie" && display === false){
                 display = true
                 playerList.push(
@@ -81,7 +58,6 @@ class TeamStats extends Component {
                     </div>
                 )
             }
-
             const render = this.renderPlayers(player)
             playerList.push(render)
         })
@@ -89,7 +65,6 @@ class TeamStats extends Component {
         teamScoreboards.push(
             <div className="row" key={teamScoreboards.length}>
                 <hr/>
-                <div>{teams[index]} ({teamTotalPoints})</div>
                 <p>Players</p>
                 <div className="col s3">Name</div>
                 <div className="col s3">Goals</div>

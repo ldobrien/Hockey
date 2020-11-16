@@ -4,20 +4,13 @@ import {compose} from 'redux';
 import {loadScoreboard} from '../store/actions/scoreboardActions'
 import { firestoreConnect } from 'react-redux-firebase';
 import TeamStats from './TeamStats'
+import {getPlayerPoints} from './PlayerStats'
+import {Collapsible, CollapsibleItem, Icon} from 'react-materialize'
 import './styles.css'
 
 class Scoreboard extends Component {
     state ={
         scoreboard: this.props.scoreboard,
-        goalValue: 2,
-        assistValue: 1,
-        winValue: 1,
-        shutoutValue: 1,
-        goalieGoalValue: 10,
-        goalieAssistValue: 1
-    }
-
-    componentDidMount(){
     }
 
     componentDidUpdate(prevProps){
@@ -75,13 +68,6 @@ class Scoreboard extends Component {
     }
 
     render() {
-        if(Object.keys(this.state.scoreboard).length === 0){
-            setTimeout(() => {
-                this.setState({
-                    scoreboard: this.props.scoreboard
-                })
-            }, 100)
-        }
         if(!this.props.chosenTeams){
             return (
                 <div>
@@ -94,22 +80,36 @@ class Scoreboard extends Component {
 
         var keys = Object.keys(this.props.chosenTeams)
         var teamDivs = []
+
         for(var index = 0; index < keys.length; index++){
             var teamDiv = this.filterTeam(this.state.scoreboard[keys[index]])
             var team = this.props.chosenTeams[keys[index]]
-            teams.push(<div key={teams.length}>{team.displayName}</div>)
+            teams.push(team.displayName)
             teamDivs.push(teamDiv)
         }
         
-        
         teamDivs.forEach((entry, index) => {
-            teamScoreboards.push(<TeamStats key={teamScoreboards.length} entry={entry} teams={teams} index={index}/>)
-            
+            let teamPoints = 0
+            entry.forEach(elem => {
+                teamPoints += getPlayerPoints(elem)
+            })
+            let header = teams[index] + " (" + teamPoints + ")"
+            teamScoreboards.push(
+                <CollapsibleItem
+                expanded={false}
+                header={header}
+                node="div"
+                key={teamScoreboards.length}
+                >
+                    <TeamStats  key={teamScoreboards.length} entry={entry}/>
+                </CollapsibleItem>)
         })
 
         return (
             <div className="inside-container">
-                {teamScoreboards}
+                <Collapsible accordion>
+                    {teamScoreboards}
+                </Collapsible>
             </div>
         )
     }

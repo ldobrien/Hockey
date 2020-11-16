@@ -18,7 +18,7 @@ import { isLoaded  } from 'react-redux-firebase';
 import 'firebase/firestore'
 
 const rrfConfig = { 
-  userProfile: 'chosenTeam', // TODO
+  userProfile: 'users', // TODO
   useFirestoreForProfile: true
 }
 
