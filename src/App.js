@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Navbar from './components/Navbar'
+import NavbarComponent from './components/Navbar'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import TeamPicker from './components/TeamPicker'
 import Teams from './components/Teams';
@@ -14,7 +14,7 @@ function App() {
       <header className="App-header">
         <BrowserRouter>
           <div className="App">
-              <Navbar/>
+              <NavbarComponent/>
               <Switch>
                   <Route exact path="/" component={TeamPicker}/>
                   <Route exact path="/Teams" component={Teams}/>

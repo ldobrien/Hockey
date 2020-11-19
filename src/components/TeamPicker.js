@@ -142,14 +142,14 @@ class TeamPicker extends Component {
         return (
             <div className="inside-container">
                 <div className="side-by-side-container">
-                    <div className="side-container">
+                    <div className="side-container card grey lighten-5">
                         <h5 className="center">Forwards</h5>
                         {forwardsSortedDivs}</div>
-                    <div className="side-container">
+                    <div className="side-container card grey lighten-5">
                         <h5 className="center">Defence</h5>
                         {defenseSortedDivs}
                     </div>
-                    <div className="side-container">
+                    <div className="side-container card grey lighten-5">
                         <h5 className="center">Goalies</h5> {goaliesSortedDivs}
                     </div>
                 </div>

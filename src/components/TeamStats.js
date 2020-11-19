@@ -6,25 +6,23 @@ import {getPlayerPoints} from './PlayerStats'
 import './styles.css'
 
 class TeamStats extends Component {
-    state ={
-        scoreboard: this.props.scoreboard,
+    renderGoalie = (player) => {
+        let points = getPlayerPoints(player)
+        let key = player.name + this.props.index
+        return (
+            <div className="row" key={key}>
+                <div className="col s2">{player.name}</div>
+                <div className="col s2">{player.wins}</div>
+                <div className="col s2">{player.shutouts}</div>
+                <div className="col s2">{player.goals}</div>
+                <div className="col s2">{player.assists}</div>
+                <div className="col s2">{points}</div>
+            </div>
+        )
     }
 
     renderPlayers = (players) => {
         let points = getPlayerPoints(players)
-        if(players.position === "Goalie"){
-            let key = players.name + this.props.index
-            return (
-                <div className="row" key={key}>
-                    <div className="col s2">{players.name}</div>
-                    <div className="col s2">{players.wins}</div>
-                    <div className="col s2">{players.shutouts}</div>
-                    <div className="col s2">{players.goals}</div>
-                    <div className="col s2">{players.assists}</div>
-                    <div className="col s2">{points}</div>
-                </div>
-            )
-        }
         return (
             <div className="row" key={players.name}>
                 <div className="col s3">{players.name}</div>
@@ -35,52 +33,64 @@ class TeamStats extends Component {
         )
     }
 
+    header = (title) => {
+        return <div className="col s3 bold z-depth-1">{title}</div>
+    }
+
+    goalieHeader = (title) => {
+        return <div className="col s2 bold z-depth-1">{title}</div>
+    }
+
     render() {
         const {entry} = this.props
-
-        const teamScoreboards = []
-        let display = false
-
-        let playerList = []
+        const goalies = []
+        const players = []
+        const playerHeader =
+            (<div className="row">
+                <p className="bold">Players</p>
+                {this.header("Name")}
+                {this.header("Goals")}
+                {this.header("Assists")}
+                {this.header("Points")}
+            </div>)
+        const goalieHeaders = (
+            <div className="row">
+                <p className="bold">Goalies</p>
+                {this.goalieHeader("Name")}
+                {this.goalieHeader("Wins")}
+                {this.goalieHeader("Shutouts")}
+                {this.goalieHeader("Goals")}
+                {this.goalieHeader("Assists")}
+                {this.goalieHeader("Points")}
+            </div>)
         entry.forEach(player => {
-            if(player.position === "Goalie" && display === false){
-                display = true
-                playerList.push(
-                    <div className="row" key={playerList.length}>
-                        <hr/>
-                        <p>Goalies</p>
-                        <div className="col s2">Name:</div>
-                        <div className="col s2">Wins</div>
-                        <div className="col s2">Shutouts</div>
-                        <div className="col s2">Goals</div>
-                        <div className="col s2">Assists</div>
-                        <div className="col s2">Points</div>
-                    </div>
-                )
+            if(player.position === "Goalie"){
+                goalies.push(this.renderGoalie(player))
+            } else {
+                players.push(this.renderPlayers(player))
             }
-            const render = this.renderPlayers(player)
-            playerList.push(render)
         })
-        
-        teamScoreboards.push(
-            <div className="row" key={teamScoreboards.length}>
-                <hr/>
-                <p>Players</p>
-                <div className="col s3">Name</div>
-                <div className="col s3">Goals</div>
-                <div className="col s3">Assists</div>
-                <div className="col s3">Points</div>
-            </div>
-        )
-        teamScoreboards.push(playerList)
-
+    
         return (
             <div className="inside-container">
-                {teamScoreboards}
+                <div className="card grey lighten-5">
+                    <div className="card-content">
+                       {playerHeader}
+                        {players}
+                    </div>
+                </div>
+                
+                <div className="card grey lighten-5">
+                    <div className="card-content">
+                        {goalieHeaders}
+                        {goalies}
+                    </div>
+                </div>
             </div>
         )
     }
 }
+
 const mapStateToProps = state => {
     return {
     };

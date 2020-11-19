@@ -69,10 +69,7 @@ class Scoreboard extends Component {
 
     render() {
         if(!this.props.chosenTeams){
-            return (
-                <div>
-                    
-                </div>)
+            return (<div/>)
         }
 
         const teamScoreboards = []
