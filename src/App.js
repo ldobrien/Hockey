@@ -7,6 +7,7 @@ import Teams from './components/Teams';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Scoreboard from './components/Scoreboard';
+import Trade from './components/Trade';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                   <Route exact path='/signin' component={SignIn}/>
                   <Route exact path='/signup' component={SignUp}/>
                   <Route exact path='/scoreboard' component={Scoreboard}/>
+                  <Route exact path="/trade" component={Trade}/>
               </Switch>
           </div>
         </BrowserRouter>

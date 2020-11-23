@@ -11,6 +11,7 @@ class NavbarComponent extends Component {
     
     render() {
         const teamSelector = this.props.auth ? <NavItem className="black-text" href="/">Select Team</NavItem> : null
+        const tradeLinks = this.props.auth ? <NavItem className="black-text" href="/trade">Trade</NavItem> : null
         const signUpLink = this.props.auth ? null : <NavItem className="black-text" href="/SignUp">Sign Up</NavItem>
         const signInLink = this.props.auth 
             ? <NavItem className="black-text" onClick={this.props.signOut} href="/SignIn">Log Out</NavItem> 
@@ -36,6 +37,7 @@ class NavbarComponent extends Component {
                     }}
                 >
                     {teamSelector}
+                    {tradeLinks}
                     <NavItem href="/scoreboard" className="black-text">Scoreboard</NavItem>
                     {signUpLink}
                     {signInLink}

@@ -15,10 +15,12 @@ class Scoreboard extends Component {
 
     componentDidUpdate(prevProps){
         if(this.props.chosenTeams !== prevProps.chosenTeams){
-            this.props.loadScoreboard(this.props.chosenTeams)
-            this.setState({
-                scoreboard: this.props.scoreboard
-            })
+            if(this.props.chosenTeams){
+                this.props.loadScoreboard(this.props.chosenTeams)
+                this.setState({
+                    scoreboard: this.props.scoreboard
+                })
+            }
         }
         if(this.props.scoreboard !== prevProps.scoreboard){
             this.setState({

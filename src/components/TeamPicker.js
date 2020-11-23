@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {loadRosters, submitTeam} from '../store/actions/teamActions'
-import { Scrollbars } from 'react-custom-scrollbars';
 import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom'
 import './styles.css'
+import SortedPlayerList from './SortedPlayerList';
 
 class TeamPicker extends Component {
     state ={
@@ -90,23 +90,6 @@ class TeamPicker extends Component {
         this.props.submitTeam(this.state.selectedPlayers, this.props.auth, this.props.displayName)
     }
 
-    sortDivs = (playerList) => {
-        let sortedlist = playerList.sort((a, b) => a.fullName > b.fullName ? 1 : -1)
-        var sortedlistDivs = []
-        sortedlist.forEach(player => {
-            sortedlistDivs.push(
-            <div 
-                onClick={() => this.playerClicked(player)} 
-                key={sortedlistDivs.length} 
-                className={Object.keys(this.state.selectedPlayers).includes(player.id.toString()) ? "player-div green" : "player-div"}
-                >
-                {player.fullName}
-                <span className="alignright">{player.team}</span>
-            </div>)
-        })
-        return <Scrollbars style={{height: 500 }}>{sortedlistDivs}</Scrollbars>
-    }
-
     render() {
         if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
         let forwards = []
@@ -130,13 +113,13 @@ class TeamPicker extends Component {
             })
         }
         if(forwards.length > 0){
-            var forwardsSortedDivs = this.sortDivs(forwards)
+            var forwardsSortedDivs = <SortedPlayerList playerList={forwards} onClick={this.playerClicked} highlightKeys={Object.keys(this.state.selectedPlayers)}/>
         }
         if(defense.length > 0) {
-            var defenseSortedDivs = this.sortDivs(defense)
+            var defenseSortedDivs = <SortedPlayerList playerList={defense} onClick={this.playerClicked} highlightKeys={Object.keys(this.state.selectedPlayers)}/>
         }
         if(goalies.length > 0){
-            var goaliesSortedDivs = this.sortDivs(goalies)
+            var goaliesSortedDivs = <SortedPlayerList playerList={goalies} onClick={this.playerClicked} highlightKeys={Object.keys(this.state.selectedPlayers)}/>
         }
         
         return (
@@ -144,13 +127,24 @@ class TeamPicker extends Component {
                 <div className="side-by-side-container">
                     <div className="side-container card grey lighten-5">
                         <h5 className="center">Forwards</h5>
-                        {forwardsSortedDivs}</div>
+                        {forwardsSortedDivs}
+                        <p className="green-text">
+                            {this.state.numberOfForwards - this.state.selectedForwards} Forwards Remaining
+                        </p>
+                    </div>
                     <div className="side-container card grey lighten-5">
                         <h5 className="center">Defence</h5>
                         {defenseSortedDivs}
+                        <p className="green-text">
+                            {this.state.numberOfDefense - this.state.selectedDefense} Defense Remaining
+                        </p>
                     </div>
                     <div className="side-container card grey lighten-5">
-                        <h5 className="center">Goalies</h5> {goaliesSortedDivs}
+                        <h5 className="center">Goalies</h5> 
+                        {goaliesSortedDivs}
+                        <p className="green-text">
+                            {this.state.numberOfGoalies - this.state.selectedGoalies} Goalies Remaining
+                        </p>
                     </div>
                 </div>
                 <p className="red-text center">{this.state.error}</p>
