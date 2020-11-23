@@ -10,7 +10,7 @@ import SortedPlayerList from './SortedPlayerList';
 
 class TeamPicker extends Component {
     state ={
-        teamRoster: [],
+        teamRoster: this.props.teamRoster,
         selectedPlayers: {},
         selectedForwards: 0,
         selectedDefense: 0,
@@ -21,10 +21,12 @@ class TeamPicker extends Component {
     }
 
     componentDidMount(){
-        this.props.loadRosters()
-        .then(this.setState({
-            teamRoster: this.props.teamRoster
-        }))
+        if(this.props.teamRoster.length === 0){
+            this.props.loadRosters()
+            .then(this.setState({
+                teamRoster: this.props.teamRoster
+            }))
+        }
     }
 
     componentDidUpdate(prevProps){

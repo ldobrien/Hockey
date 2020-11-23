@@ -5,7 +5,7 @@ import {loadScoreboard} from '../store/actions/scoreboardActions'
 import { firestoreConnect } from 'react-redux-firebase';
 import TeamStats from './TeamStats'
 import {getPlayerPoints} from './PlayerStats'
-import {Collapsible, CollapsibleItem, Icon} from 'react-materialize'
+import {Collapsible, CollapsibleItem} from 'react-materialize'
 import './styles.css'
 
 class Scoreboard extends Component {

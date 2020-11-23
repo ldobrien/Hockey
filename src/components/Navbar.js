@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {signOut} from '../store/actions/authActions';
 import './styles.css'
-import {Navbar, NavItem, Icon} from 'react-materialize'
+import {Navbar, Icon} from 'react-materialize'
 import 'materialize-css/dist/css/materialize.min.css';
 import { connect } from 'react-redux'
 import logo from "../logo.png"
@@ -10,18 +10,25 @@ import logo from "../logo.png"
 class NavbarComponent extends Component {
     
     render() {
-        const teamSelector = this.props.auth ? <NavItem className="black-text" href="/">Select Team</NavItem> : null
-        const tradeLinks = this.props.auth ? <NavItem className="black-text" href="/trade">Trade</NavItem> : null
-        const signUpLink = this.props.auth ? null : <NavItem className="black-text" href="/SignUp">Sign Up</NavItem>
+        const teamSelector = this.props.auth ? 
+            <NavLink className="black-text" to="/">Select Team</NavLink>
+            : null
+        const tradeLinks = this.props.auth ? 
+            <NavLink className="black-text" to="/trade">Trade</NavLink>
+            : null
+        const signUpLink = this.props.auth ? 
+            null 
+            : <NavLink className="black-text" to="/SignUp">Sign Up</NavLink>
         const signInLink = this.props.auth 
-            ? <NavItem className="black-text" onClick={this.props.signOut} href="/SignIn">Log Out</NavItem> 
-            : <NavItem className="black-text" href="/SignIn">Sign In</NavItem>
+            ? <NavLink className="black-text" onClick={this.props.signOut} to="/SignIn">Log Out</NavLink>
+            : <NavLink className="black-text" to="/SignIn">Sign In</NavLink>
+
         return (
             <div className="App">
                 <Navbar
                     className="cyan lighten-3"
                     alignLinks="right"
-                    brand={<img className="logo" src={logo}></img>}
+                    brand={<img className="logo" src={logo} alt="logo"></img>}
                     id="mobile-nav"
                     menuIcon={<Icon>menu</Icon>}
                     options={{
@@ -37,8 +44,8 @@ class NavbarComponent extends Component {
                     }}
                 >
                     {teamSelector}
-                    {tradeLinks}
-                    <NavItem href="/scoreboard" className="black-text">Scoreboard</NavItem>
+                    {tradeLinks}                    
+                    <NavLink className="black-text" to='/scoreboard'>Scoreboard</NavLink>
                     {signUpLink}
                     {signInLink}
                 </Navbar>

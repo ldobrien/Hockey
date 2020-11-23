@@ -7,8 +7,8 @@ class SignUp extends Component {
     state = {
         email: '',
         password: '',
-        firstName: '',
-        lastName: ''
+        displayName: '',
+        error: ''
     }
 
     handleChange = (e) => {
@@ -19,6 +19,12 @@ class SignUp extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
+        if(this.state.displayName === ''){
+            this.setState({
+                error: "You need to enter a display name"
+            })
+            return
+        }
         this.props.signUp(this.state)
     }
 

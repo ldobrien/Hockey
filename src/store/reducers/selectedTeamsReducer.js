@@ -1,5 +1,4 @@
 import initialState from './initialState'
-import { CREATE_TEAM_ERROR } from '../actions/actionTypes';
 
 export const createTeam = (state, action) => {
     return [...state, action.team]

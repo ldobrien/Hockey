@@ -23,8 +23,9 @@ class TeamStats extends Component {
 
     renderPlayers = (players) => {
         let points = getPlayerPoints(players)
+        let key = players.name + this.props.index
         return (
-            <div className="row" key={players.name}>
+            <div className="row" key={key}>
                 <div className="col s3">{players.name}</div>
                 <div className="col s3">{players.goals}</div>
                 <div className="col s3">{players.assists}</div>
