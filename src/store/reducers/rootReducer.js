@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     auth: authReducer,
-    scoreboard: scoreboardReducer
+    scoreboard: scoreboardReducer,
 })
 
 export default rootReducer;

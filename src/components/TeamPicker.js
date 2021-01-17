@@ -80,7 +80,9 @@ class TeamPicker extends Component {
             delete selectedPlayers[id]
         }
         else {
-            selectedPlayers[id] = player
+            let currplayer = {... player}
+            currplayer.active = true
+            selectedPlayers[id] = currplayer
         }
         
         this.setState({
@@ -94,6 +96,10 @@ class TeamPicker extends Component {
 
     render() {
         if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
+
+        let status = this.props.selectedTeams.status?.includes("Successfully") ?
+            (<div className="green-text">{this.props.selectedTeams.status}</div>) :
+            (<div className="red-text">{this.props.selectedTeams.status}</div>) 
         let forwards = []
         let defense = []
         let goalies = []
@@ -103,7 +109,7 @@ class TeamPicker extends Component {
                     fullName: player.fullName,
                     team: player.team,
                     position: player.position,
-                    id: player.id
+                    id: player.id,
                 }
                 if(player.position === "Forward"){
                     forwards.push(currPlayer)
@@ -151,10 +157,12 @@ class TeamPicker extends Component {
                 </div>
                 <p className="red-text center">{this.state.error}</p>
                 <div className="center">
+                    {status}
                     <Button variant="contained" color="secondary" onClick={this.onSubmit}>
                         Submit
                     </Button>
                 </div>
+                
             </div>
         )
     }
@@ -163,7 +171,8 @@ const mapStateToProps = state => {
     return {
         teamRoster: state.teamRoster,
         auth: state.firebase.auth,
-        displayName: state.firebase.profile.displayName
+        displayName: state.firebase.profile.displayName,
+        selectedTeams: state.selectedTeams
     };
 };
 

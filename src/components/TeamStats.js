@@ -9,8 +9,9 @@ class TeamStats extends Component {
     renderGoalie = (player) => {
         let points = getPlayerPoints(player)
         let key = player.name + this.props.index
+        let style = !player.active ? "grey row" : "row"
         return (
-            <div className="row" key={key}>
+            <div className={style} key={key}>
                 <div className="col s2">{player.name}</div>
                 <div className="col s2">{player.wins}</div>
                 <div className="col s2">{player.shutouts}</div>
@@ -21,14 +22,15 @@ class TeamStats extends Component {
         )
     }
 
-    renderPlayers = (players) => {
-        let points = getPlayerPoints(players)
-        let key = players.name + this.props.index
+    renderPlayers = (player) => {
+        let points = getPlayerPoints(player)
+        let key = player.name + this.props.index
+        let style = !player.active ? "grey row" : "row"
         return (
-            <div className="row" key={key}>
-                <div className="col s3">{players.name}</div>
-                <div className="col s3">{players.goals}</div>
-                <div className="col s3">{players.assists}</div>
+            <div className={style} key={key}>
+                <div className="col s3">{player.name}</div>
+                <div className="col s3">{player.goals}</div>
+                <div className="col s3">{player.assists}</div>
                 <div className="col s3">{points}</div>
             </div>
         )

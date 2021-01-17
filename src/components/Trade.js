@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {loadRosters, submitTeam} from '../store/actions/teamActions'
+import {loadRosters, trade} from '../store/actions/teamActions'
 import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
@@ -18,6 +18,7 @@ class Trade extends Component {
         teamRoster: [],
         tradedOutPlayers: {},
         selectedPlayers: this.props.chosenTeams ? this.props.chosenTeams[this.props.auth.uid].team : {},
+        highlight: []
     }
 
     componentDidMount(){
@@ -50,92 +51,82 @@ class Trade extends Component {
             })
             return
         }
-        this.props.submitTeam(this.state.selectedPlayers, this.props.auth, this.props.displayName)
+        this.props.trade(this.state.selectedPlayers, this.props.auth, this.props.displayName)
     }
 
     selectionLogic = (deselect, tradeOut) => {
+        if(this.state.tradeOut === this.state.tradeLimit && tradeOut && !deselect){
+            this.setState({
+                error: "Error: You have hit the trade limit of " + this.state.tradeLimit + " players"
+            })
+            return "Error: Limit hit"
+        } 
+        else if(this.state.tradeIn === this.state.tradeLimit && !tradeOut && !deselect){
+            this.setState({
+                error: "Error: You have hit the trade limit of " + this.state.tradeLimit + " players"
+            })
+            return "Error: Limit hit"
+        } else {
+            this.setState({
+                error: ""
+            })
+            return null
+        }
+    }
+
+    playerClicked = (player, tradeout) => {
+        // tradeout is true for trade out; false for trade in
+        let id = player.id.toString()
+        let selectedPlayers = {...this.state.selectedPlayers}
+
+        // trade out this will be select; trade in will be deselect
+        let deselect = Object.keys(selectedPlayers).includes(id) && selectedPlayers[id].active
+        let tradeIn = this.state.tradeIn
+        let tradeOut = this.state.tradeOut
+        let highlight = [...this.state.highlight]
+
+        let selection = tradeout ? !deselect : deselect
+        var error = this.selectionLogic(selection, tradeout)
+        if(error != null) {
+            return
+        }
+        
         if(deselect){
-            if(tradeOut){
-                this.setState({
-                    tradeOut: this.state.tradeOut - 1,
-                    error: ""
-                })
+            let currPlayer = {...player}
+            currPlayer.active = false
+            selectedPlayers[id] = currPlayer
+            if(tradeout){
+                highlight.push(id)
+                tradeOut++
             } else {
-                this.setState({
-                    tradeIn: this.state.tradeIn - 1,
-                    error: ""
-                })
-            }
-        } 
-        else if(this.state.tradeOut === this.state.tradeLimit && tradeOut){
-            this.setState({
-                error: "Error: You have hit the trade limit of " + this.state.tradeLimit + " players"
-            })
-            return "Error: Limit hit"
-        } 
-        else if(this.state.tradeIn === this.state.tradeLimit && !tradeOut){
-            this.setState({
-                error: "Error: You have hit the trade limit of " + this.state.tradeLimit + " players"
-            })
-            return "Error: Limit hit"
-        } 
-        else {
-            if(tradeOut){
-                this.setState({
-                    tradeOut: this.state.tradeOut + 1,
-                    error: ""
-                })
-            } else {
-                this.setState({
-                    tradeIn: this.state.tradeIn + 1,
-                    error: ""
-                })
+                const index = highlight.indexOf(id);
+                if (index > -1) {
+                    highlight.splice(index, 1);
+                }
+                tradeIn--
             }
         }
-        return null
-    }
-
-    playerClicked = (player) => {
-        let id = player.id
-        var deselect = Object.keys(this.state.selectedPlayers).includes(id.toString())
-        var error = this.selectionLogic(deselect, false)
-        if(error != null) {
-            return
-        }
-        let selectedPlayers = {...this.state.selectedPlayers}
-        if(Object.keys(this.state.selectedPlayers).includes(id.toString())){
-            delete selectedPlayers[id]
-        }
         else {
-            selectedPlayers[id] = player
+            let currPlayer = {...player}
+            currPlayer.active = true
+            selectedPlayers[id] = currPlayer
+            if(tradeout){
+                const index = highlight.indexOf(id);
+                if (index > -1) {
+                    highlight.splice(index, 1);
+                }
+                tradeOut--
+            } else {
+                tradeIn++
+                highlight.push(id)
+            }
         }
-        
-        this.setState({
-            selectedPlayers
-        })
-    }
 
-    tradeOutClicked = (player) => {
-        let id = player.id
-        var deselect = Object.keys(this.state.selectedPlayers).includes(id.toString())
-        var error = this.selectionLogic(!deselect, true)
-        if(error != null) {
-            return
-        }
-        let selectedPlayers = {...this.state.selectedPlayers}
-        let tradedOutPlayers = {...this.state.tradedOutPlayers}
-        if(Object.keys(this.state.selectedPlayers).includes(id.toString())){
-            delete selectedPlayers[id]
-            tradedOutPlayers[id] = player
-        }
-        else {
-            selectedPlayers[id] = player
-            delete tradedOutPlayers[id]
-        }
-        
         this.setState({
             selectedPlayers,
-            tradedOutPlayers
+            highlight,
+            tradeIn,
+            tradeOut
         })
     }
 
@@ -146,11 +137,12 @@ class Trade extends Component {
         let teamplayersDivs = <div/>
         if(this.props.chosenTeams){
             team = this.props.chosenTeams[this.props.auth.uid].team
-            let teamArr = Object.values(team)
+            let rawTeamArr = Object.values(team)
+            let teamArr = rawTeamArr.filter(elem => elem.active)
             teamplayersDivs = <SortedPlayerList 
                                 playerList={teamArr} 
-                                onClick={this.tradeOutClicked} 
-                                highlightKeys={Object.keys(this.state.tradedOutPlayers)}/>
+                                onClick={(player)=>this.playerClicked(player, true)} 
+                                highlightKeys={this.state.highlight}/>
             let chosenTeamIdSet = new Set()
             teamArr.forEach(player => {
                 chosenTeamIdSet.add(player.id)
@@ -170,12 +162,9 @@ class Trade extends Component {
             }
         }
         
-        
-        
         var playersDivs = <div/>
         if(players.length > 0){
-            playersDivs = <SortedPlayerList playerList={players} onClick={this.playerClicked} highlightKeys={Object.keys(this.state.selectedPlayers)}/>
-
+            playersDivs = <SortedPlayerList playerList={players} onClick={(player)=>this.playerClicked(player, false)} highlightKeys={this.state.highlight}/>
         }
         
         return (
@@ -200,6 +189,7 @@ class Trade extends Component {
         )
     }
 }
+
 const mapStateToProps = state => {
     return {
         teamRoster: state.teamRoster,
@@ -211,7 +201,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     loadRosters,
-    submitTeam
+    trade
 };
 
 export default compose(

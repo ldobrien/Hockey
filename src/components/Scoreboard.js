@@ -29,7 +29,7 @@ class Scoreboard extends Component {
         }
     }
 
-    goalieStats = (stats, name, position) => {
+    goalieStats = (stats, name, position, active) => {
         let playerStats = {}
         playerStats["name"] = name
         playerStats["position"] = position
@@ -38,16 +38,18 @@ class Scoreboard extends Component {
         playerStats['shutouts'] = stats.shutouts ? stats.shutouts : 0
         playerStats['goals'] = stats.goals ? stats.goals : 0
         playerStats['assists'] = stats.assists ? stats.assists : 0
+        playerStats['active'] = active
 
         return playerStats
     }
 
-    playerStats = (stats, name, position) => {
+    playerStats = (stats, name, position, active) => {
         let playerStats = {}
         playerStats["position"] = position
         playerStats["name"] = name
         playerStats['goals'] = stats.goals ? stats.goals : 0
         playerStats['assists'] = stats.assists ?  stats.assists : 0
+        playerStats['active'] = active
 
         return playerStats
     }
@@ -60,9 +62,9 @@ class Scoreboard extends Component {
                 let stats = entry.splits.length > 0 ? entry.splits[0].stat : []
                 let player = entry.player
                 if(player.position === "Goalie" ){
-                    goalieStatsArr.push(this.goalieStats(stats, player.fullName, player.position))
+                    goalieStatsArr.push(this.goalieStats(stats, player.fullName, player.position, player.active))
                 } else {
-                    playerStatsArr.push(this.playerStats(stats, player.fullName, player.position))
+                    playerStatsArr.push(this.playerStats(stats, player.fullName, player.position, player.active))
                 }
             }
         }

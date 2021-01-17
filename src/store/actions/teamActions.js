@@ -48,3 +48,31 @@ export const submitTeam = (team, auth, displayName) => {
         
     }
 }
+
+export const trade = (team, auth, displayName) => {
+    console.log("TRADE")
+    return(dispatch, getState, {getFiresbase, getFirestore}) => {
+        const firestore = getFirestore();
+
+        firestore.collection('chosenTeam').doc(auth.uid).set({
+            id: auth.uid,
+            email: auth.email,
+            team: team,
+            displayName: displayName
+        })
+        .then(() => {
+            dispatch(
+                {
+                  type: "TRADE",
+                  team: team
+                }
+            )
+        })
+        .catch((err) => {
+            dispatch({
+                type: "TRADE_ERROR",
+                err: err
+            })
+        })
+    }
+}
