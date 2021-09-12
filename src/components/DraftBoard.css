@@ -1,0 +1,132 @@
+body {
+    margin: 0px;
+    padding: 20px;
+    font-family: sans-serif;
+    background-color: #cccccc;
+  }
+  
+  .example {
+    border-left: 1px solid #999999;
+    border-bottom: 1px solid #eeeeee;
+    border-right: 1px solid #eeeeee;
+    border-top: 1px solid #999999;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 20px;
+  }
+  
+  .item {
+    font-family: sans-serif;
+    border-top: 1px solid #ffffff;
+    background-color: #eeeeee;
+    border-bottom: 1px solid #999999;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    padding: 10px;
+    padding-left: 8px;
+    opacity: 1;
+    width: 140px;
+    float: left;
+    margin-left: 2px;
+    /* overflow: hidden; */
+  }
+  
+  .item .title {
+    font-weight: bold;
+    font-size: 125%;
+    margin: 0;
+    margin-bottom: 0.3rem;
+  }
+  
+  .item .body {
+    margin: 0;
+    margin-bottom: 0.3rem;
+  }
+  
+  .item .small {
+    font-size: 66%;
+    text-align: right;
+  }
+  
+  .dragged .item {
+    opacity: 0.25;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+  }
+  
+  .floating .item {
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px #666666;
+  }
+  
+  .dl-item.floating {
+    width: 85%;
+  }
+
+  .photo{
+    max-height: 50px;
+    max-width: 50px;
+  }
+
+  .eachround{
+    width: 1200px;
+    height: 140px;
+  }
+
+  .buttonDiv{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 2000px;
+    float: right;
+  }
+
+  .button {
+    position: sticky;
+    top: 0;
+    height: 250px;
+    width: 250px;
+  }
+
+  .selectedItem{
+    font-family: sans-serif;
+    border-top: 1px solid #ffffff;
+    background-color: #00e1ff;
+    border-bottom: 1px solid #ffffff;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    padding: 10px;
+    padding-left: 8px;
+    opacity: 1;
+    width: 140px;
+    float: left;
+  }
+
+  .selectedItem .title {
+    font-weight: bold;
+    font-size: 125%;
+    margin: 0;
+    margin-bottom: 0.3rem;
+  }
+
+  .selectedItem .body {
+    margin: 0;
+    margin-bottom: 0.3rem;
+  }
+  
+  .selectedItem .small {
+    font-size: 66%;
+    text-align: right;
+  }
+  
+  .dragged .selectedItem {
+    opacity: 0.25;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+  }
+  
+  .floating .selectedItem {
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px #666666;
+  }

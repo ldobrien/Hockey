@@ -8,6 +8,8 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Scoreboard from './components/Scoreboard';
 import Trade from './components/Trade';
+import Draft from './components/Draft';
+import DraftBoard from './components/DraftBoard';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
                   <Route exact path='/signup' component={SignUp}/>
                   <Route exact path='/scoreboard' component={Scoreboard}/>
                   <Route exact path="/trade" component={Trade}/>
+                  <Route exact path="/draft" component={Draft}/>
+                  <Route exact path="/draftboard" component={DraftBoard}/>
               </Switch>
           </div>
         </BrowserRouter>

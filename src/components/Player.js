@@ -4,7 +4,6 @@ import './styles.css'
 class Player extends Component {
 
     render() {
-        // console.log("Highlight", this.props.highlightKeys, this.props.player.id.toString())
         return (
             <div 
                 onClick={() => this.props.onClick(this.props.player)}

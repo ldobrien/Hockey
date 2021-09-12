@@ -16,7 +16,7 @@ class Trade extends Component {
         // The trade limit needs to come in from the db and should be decremented based on the players traded
         tradeLimit: 5,
         teamRoster: [],
-        tradedOutPlayers: {},
+        tradedOutPlayers: [],
         selectedPlayers: this.props.chosenTeams ? this.props.chosenTeams[this.props.auth.uid].team : {},
         highlight: []
     }
@@ -51,6 +51,7 @@ class Trade extends Component {
             })
             return
         }
+        // I need to get the players who are traded out and add an archive of their points
         this.props.trade(this.state.selectedPlayers, this.props.auth, this.props.displayName)
     }
 
@@ -78,6 +79,7 @@ class Trade extends Component {
         // tradeout is true for trade out; false for trade in
         let id = player.id.toString()
         let selectedPlayers = {...this.state.selectedPlayers}
+        let tradedOutPlayers = this.state.tradedOutPlayers
 
         // trade out this will be select; trade in will be deselect
         let deselect = Object.keys(selectedPlayers).includes(id) && selectedPlayers[id].active
@@ -98,10 +100,13 @@ class Trade extends Component {
             if(tradeout){
                 highlight.push(id)
                 tradeOut++
+                tradedOutPlayers.push(id)
             } else {
                 const index = highlight.indexOf(id);
                 if (index > -1) {
+                    // TODO: these could be put into the same array
                     highlight.splice(index, 1);
+                    // tradedInPlayers.splice(index, 1)
                 }
                 tradeIn--
             }
@@ -114,11 +119,13 @@ class Trade extends Component {
                 const index = highlight.indexOf(id);
                 if (index > -1) {
                     highlight.splice(index, 1);
+                    tradedOutPlayers.splice(index, 1)
                 }
                 tradeOut--
             } else {
                 tradeIn++
                 highlight.push(id)
+                // tradedInPlayers.push(id)
             }
         }
 
@@ -126,11 +133,13 @@ class Trade extends Component {
             selectedPlayers,
             highlight,
             tradeIn,
-            tradeOut
+            tradeOut,
+            tradedOutPlayers
         })
     }
 
     render() {
+        // console.log(this.state)
         if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
         let team = []
         let players = []

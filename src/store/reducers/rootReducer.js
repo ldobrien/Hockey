@@ -5,6 +5,9 @@ import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore";
 import authReducer from "./authReducer";
 import scoreboardReducer from "./scoreboardReducer";
+import draftForwardsReducer from "./draftForwardsReducer";
+import draftDefenseReducer from "./draftDefenseReducer";
+import draftOrderReducer from "./draftOrderReducer";
 
 const rootReducer = combineReducers({
     teamRoster: teamRosterReducer,
@@ -13,6 +16,10 @@ const rootReducer = combineReducers({
     firestore: firestoreReducer,
     auth: authReducer,
     scoreboard: scoreboardReducer,
+    // topPlayers: draftReducer,
+    forwards: draftForwardsReducer,
+    defense: draftDefenseReducer,
+    draftOrder: draftOrderReducer,
 })
 
 export default rootReducer;

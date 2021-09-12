@@ -49,8 +49,19 @@ export const submitTeam = (team, auth, displayName) => {
     }
 }
 
+export const saveToDB = (players, db) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        players.forEach(player=>{
+            firestore.collection(db).doc(player.id.toString()).set(
+                player
+            )
+        })
+        
+    }
+}
+
 export const trade = (team, auth, displayName) => {
-    console.log("TRADE")
     return(dispatch, getState, {getFiresbase, getFirestore}) => {
         const firestore = getFirestore();
 

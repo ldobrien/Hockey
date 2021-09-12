@@ -12,7 +12,8 @@ export const addPlayersToRoster = (state, action) => {
                 position_name: actionPlayer.position.name,
                 team: action.team.name,
                 teamId: action.team.id,
-                conference: action.team.division.name
+                conference: action.team.division.name,
+                active: true,
             }
             addroster.push(currPlayer)
         }
