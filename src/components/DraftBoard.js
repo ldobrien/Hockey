@@ -9,7 +9,8 @@ import './DraftBoard.css'
 class DraftBoard extends Component {
     state ={
         draftees: this.props.draftOrder,
-        selected: []
+        selected: [],
+        value: new Array(120)
     }
 
     componentDidMount(){
@@ -25,15 +26,16 @@ class DraftBoard extends Component {
     }
 
     onClick = (e, i) => {
-        if(this.state.selected.length === 2){
-            return
-        } 
         var deselect = this.state.selected.indexOf(i)
         if(deselect > -1){
-            var selected = this.state.selected.slice(deselect, 1)
+            var selected = this.state.selected
+            selected.splice(deselect, 1)
             this.setState({ selected })
             return
         }
+        if(this.state.selected.length === 2){
+            return
+        } 
         this.setState({
             selected: [...this.state.selected, i]
         })
@@ -57,22 +59,49 @@ class DraftBoard extends Component {
         }, this.props.submitDraftBoard(this.state.draftees))
     }
 
+    handleChange = (event, index) => {
+        const value = this.state.value
+        value[index] = event.target.value
+        this.setState({
+            ...value
+        });
+    }
+
+    handleSubmit = (e, index) => {
+        e.preventDefault()
+        let drafted = this.state.draftees
+        drafted[index].drafted = this.state.value[index]
+        this.setState({
+            draftees: drafted,
+        }, this.props.submitDraftBoard(this.state.draftees))
+      }
+
     itemRenderer(item, index) {
         var className = "item"
         if(this.state.selected.indexOf(index) >= 0){
             className = "selectedItem"
-            // console.log("SELECTED", index)
+        }
+        let drafteEntry = <div></div>
+        if(item.drafted === undefined){
+            drafteEntry = (<form>
+                    <label>
+                    <textarea value={this.state.value[index]} onChange={(e) => this.handleChange(e, index)} />
+                    </label>
+                    <input type="submit" value="Submit" onClick={(e) => this.handleSubmit(e, index)}/>
+                </form>)
+        } else {
+            drafteEntry = <h7>drafted: {item.drafted}</h7>
         }
         return (
             <div key={index} className={className} onClick={(e) => this.onClick(e, index)}>
                 <img className="photo" src={item.logo}/>
                 <p className="title">{item.title}</p>
+                {drafteEntry}
             </div>
         )
     }
 
     render() {
-        // console.log("draftOrder", this.props, "state", this.state)
         let elems = []
         let grid = []
         this.state.draftees.forEach((elem, index) => {

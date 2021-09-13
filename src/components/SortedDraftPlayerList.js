@@ -10,8 +10,15 @@ class SortedDraftPlayerList extends Component {
     }
 
     render() {
-        
-        let sortedlist = this.props.playerList.sort((a, b) => a.fullName > b.fullName ? 1 : -1)
+        let sortedlist = this.props.playerList.sort((a, b) => {
+            if(a.stats.stat.goals === undefined){
+                return 0
+            }
+            if(((a.stats.stat.goals * 2) + a.stats.stat.assists) < ((b.stats.stat.goals * 2) + b.stats.stat.assists)){
+                return 1
+            }
+            return -1
+        })
         var sortedlistDivs = []
         sortedlist.forEach(player => {
             sortedlistDivs.push(

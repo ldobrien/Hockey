@@ -5,28 +5,19 @@ class DraftPlayer extends Component {
     render() {
         let stats = this.props.player.stats ? this.props.player.stats.stat : ""
         // console.log(this.props.player.stats, stats)
-        var goals =  ""
-        var assists =  "" 
+        var goals =  0
+        var assists =  0
+        var totalFantasyPoints = 0
         var stat = ""
         if(stats !== ""){
-            goals = stats.goals ? stats.goals : ""
-            assists = stats.assists ? stats.assists : ""
-            if(goals !== "" && assists !== ""){
-                stat = goals + ", " + assists
-            } 
-            else if (goals == "" && assists == ""){
-                stat = 0
-            }
-            else {
-                stat = goals + " " + assists
-            }
-            
+            goals = stats.goals ? stats.goals : 0
+            assists = stats.assists ? stats.assists : 0
+            totalFantasyPoints = 2 * goals + assists
         }
         
         return (
             <div className="player-div">
-                <div className="alignleft">{this.props.player.fullName}</div>
-                <div className="alignright">{stat}</div>
+                <div className="alignleft">{this.props.player.fullName} <span className="alignright">{totalFantasyPoints}</span></div>
             </div>
         )
     }

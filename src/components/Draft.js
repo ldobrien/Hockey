@@ -20,8 +20,6 @@ class Draft extends Component {
         numberOfGoalies: 3,
         forwards: this.props.forwards,
         defense: this.props.defense,
-        runOnce: 0
-        // teams: [1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54,55]
     }
 
     componentDidMount(){
@@ -37,50 +35,20 @@ class Draft extends Component {
         })
     }
 
-    componentDidUpdate(prevProps){
-        // if(this.state.forwards.find((player,index) => this.props.forwards[index].stats !== player.stats) !== undefined){
-        //     console.log(this.props.forwards.find((player,index) => prevProps.forwards[index].stats !== player.stats))
-        //     console.log(this.props.forwards, prevProps.forwards)
-        //     this.setState({
-        //         forwards: this.props.forwards
-        //     })
-        // }
-        //     console.log("update forwards")
-        //     this.state.forwards.forEach(player => {
-        //         this.props.getPlayerStats(player.id, 'Forward')
-        //     })
-        //     // this.props.getPlayerStats(8475158, 'Forward')
-        //                 // this.state.defense.forEach(player => {
-        //     //     this.props.getPlayerStats(player.id, 'Defense')
-        //     // })
-        //     this.setState({
-        //         forwards: this.props.forwards,
-        //         defense: this.props.defense,
-        //         runOnce: 1
-        //     })
-        // }
-        // if(this.props.defense.find((player,index) => prevProps.defense[index].stats !== player.stats) !== null){
-        //     console.log(this.props.defense.find((player,index) => prevProps.defense[index].stats !== player.stats))
-        //     // console.log("update defense")
-        //     // this.state.defense.forEach(player => {
-        //     //     this.props.getPlayerStats(player.id, 'Defense')
-        //     // })
-        //     this.setState({
-        //         ...this.state,
-        //         defense: this.props.defense,
-        //         runOnce: 2
-        //     })
-        // }
-    }
-
     onSubmit = () => {
     }
 
     render() {
-        if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
+        // if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
 
         let forwards = this.props.forwards
         let defense = this.props.defense
+
+        let filteredForwards = []
+        forwards.forEach(player =>{
+            let newPlayer = {}
+            // newPlayer.
+        })
 
         if(forwards.length > 0){
             var forwardsSortedDivs = <SortedDraftPlayerList playerList={forwards}/>

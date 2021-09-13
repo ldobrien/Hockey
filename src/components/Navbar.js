@@ -43,9 +43,9 @@ class NavbarComponent extends Component {
                         preventScrolling: true
                     }}
                 >
-                    {teamSelector}
-                    {tradeLinks}                    
-                    <NavLink className="black-text" to='/scoreboard'>Scoreboard</NavLink>
+                    {/* {teamSelector} */}
+                    {/* {tradeLinks}                     */}
+                    {/* <NavLink className="black-text" to='/scoreboard'>Scoreboard</NavLink> */}
                     {signUpLink}
                     {signInLink}
                     <NavLink className="black-text" to='/draft'>Draft</NavLink>
