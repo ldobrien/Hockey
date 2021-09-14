@@ -5,16 +5,33 @@ import {loadDraftOrder, submitDraftBoard} from '../store/actions/draftOrderActio
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import './DraftBoard.css'
+import TextInput from 'react-autocomplete-input';
+import 'react-autocomplete-input/dist/bundle.css';
 
 class DraftBoard extends Component {
     state ={
         draftees: this.props.draftOrder,
         selected: [],
-        value: new Array(120)
+        value: new Array(120),
+        forwards: [],
+        defense: [],
+        names: []
     }
 
     componentDidMount(){
         this.props.loadDraftOrder()
+        let names = []
+        this.props.forwards.forEach(player => {
+            names.push(player.fullName)
+        })
+        this.props.defense.forEach(player => {
+            names.push(player.fullName)
+        })
+        this.setState({
+            forwards: this.props.forwards,
+            defense: this.props.defense,
+            names
+        })
     }
 
     componentDidUpdate(){
@@ -42,14 +59,11 @@ class DraftBoard extends Component {
     }
 
     onSubmit = () => {
-        // console.log("submit")
-        // this.props.submitDraftBoard(this.state.draftees)
         if(this.state.selected.length !== 2){
             console.log("error")
             return
         }
         var newDraft = this.state.draftees
-        // console.log(this.state.selected)
         var temp = newDraft[this.state.selected[0]]
         newDraft[this.state.selected[0]] = newDraft[this.state.selected[1]]
         newDraft[this.state.selected[1]] = temp
@@ -76,6 +90,14 @@ class DraftBoard extends Component {
         }, this.props.submitDraftBoard(this.state.draftees))
       }
 
+    handleRequestOptions = (value, index) => {
+        const statevalue = this.state.value
+        statevalue[index] = value.substr(1)
+        this.setState({
+            value: statevalue
+        });
+    }
+
     itemRenderer(item, index) {
         var className = "item"
         if(this.state.selected.indexOf(index) >= 0){
@@ -85,12 +107,13 @@ class DraftBoard extends Component {
         if(item.drafted === undefined){
             drafteEntry = (<form>
                     <label>
-                    <textarea value={this.state.value[index]} onChange={(e) => this.handleChange(e, index)} />
+                        <TextInput options={this.state.names} onSelect={(value) => this.handleRequestOptions(value, index)} />
+                    {/* <textarea value={this.state.value[index]} onChange={(e) => this.handleChange(e, index)} /> */}
                     </label>
                     <input type="submit" value="Submit" onClick={(e) => this.handleSubmit(e, index)}/>
                 </form>)
         } else {
-            drafteEntry = <h7>drafted: {item.drafted}</h7>
+            drafteEntry = <p>{item.drafted}</p>
         }
         return (
             <div key={index} className={className} onClick={(e) => this.onClick(e, index)}>
@@ -106,13 +129,13 @@ class DraftBoard extends Component {
         let grid = []
         this.state.draftees.forEach((elem, index) => {
             if(index % 8 === 0 && index > 0){
-                grid.push(<h6>Round {index / 8}</h6>)
-                grid.push(<div className="eachround">{elems}</div>)
+                grid.push(<h6 key={grid.length}>Round {index / 8}</h6>)
+                grid.push(<div className="eachround" key={grid.length}>{elems}</div>)
                 elems = []
             }
             elems.push(this.itemRenderer(elem, index))
         })      
-        grid.push(<h6>Round 15</h6>)
+        grid.push(<h6 key={grid.length}>Round 15</h6>)
         grid.push(elems)
         return (
             <div>
@@ -129,7 +152,9 @@ class DraftBoard extends Component {
 }
 const mapStateToProps = state => {
     return {
-        draftOrder: state.draftOrder
+        draftOrder: state.draftOrder,
+        forwards: state.forwards,
+        defense: state.defense,
     };
 };
 

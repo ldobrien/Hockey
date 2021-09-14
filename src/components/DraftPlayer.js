@@ -4,11 +4,9 @@ import './styles.css'
 class DraftPlayer extends Component {
     render() {
         let stats = this.props.player.stats ? this.props.player.stats.stat : ""
-        // console.log(this.props.player.stats, stats)
         var goals =  0
         var assists =  0
         var totalFantasyPoints = 0
-        var stat = ""
         if(stats !== ""){
             goals = stats.goals ? stats.goals : 0
             assists = stats.assists ? stats.assists : 0
