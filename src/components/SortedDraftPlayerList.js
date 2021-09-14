@@ -5,8 +5,6 @@ import DraftPlayer from './DraftPlayer';
 
 class SortedDraftPlayerList extends Component {
     state ={
-        teamRoster: [],
-        selectedPlayers: {},
     }
 
     render() {
@@ -14,15 +12,15 @@ class SortedDraftPlayerList extends Component {
             if(a.stats.stat.goals === undefined){
                 return 0
             }
-            if(((a.stats.stat.goals * 2) + a.stats.stat.assists) < ((b.stats.stat.goals * 2) + b.stats.stat.assists)){
+            if(((a.stats.stat.goals * 2) + a.stats.stat.assists) <= ((b.stats.stat.goals * 2) + b.stats.stat.assists)){
                 return 1
             }
             return -1
         })
         var sortedlistDivs = []
-        sortedlist.forEach(player => {
+        sortedlist.forEach((player, index) => {
             sortedlistDivs.push(
-                <DraftPlayer onClick={(player) => this.props.onClick(player)} key={sortedlistDivs.length} highlightKeys={this.props.highlightKeys} player={player}/>)
+                <DraftPlayer onClick={(player) => this.props.onClick(player, index, this.props.position)} key={sortedlistDivs.length} highlightKeys={this.props.highlightKeys} player={player}/>)
         })
         return (
             <div className="inside-container">

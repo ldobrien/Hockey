@@ -14,9 +14,15 @@ class DraftPlayer extends Component {
             assists = stats.assists ? stats.assists : 0
             totalFantasyPoints = 2 * goals + assists
         }
-        
+        let className = "player-div"
+        if(this.props.player.drafted !== undefined && this.props.player.drafted === 1){
+            className= "player-div-selected"
+        }
+        else if(this.props.player.drafted !== undefined && this.props.player.drafted === 2){
+            className= "player-div-drafted"
+        }
         return (
-            <div className="player-div">
+            <div className={className} onClick={() => this.props.onClick(this.props.player)}>
                 <div className="alignleft">{this.props.player.fullName} <span className="alignright">{totalFantasyPoints}</span></div>
             </div>
         )

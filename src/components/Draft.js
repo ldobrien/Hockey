@@ -1,60 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {submitTeam, saveToDB} from '../store/actions/teamActions'
+import {saveToDB} from '../store/actions/teamActions'
 import {loadForwards, loadDefense, getPlayerStats} from '../store/actions/draftActions'
-import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
-import { Redirect } from 'react-router-dom'
 import './styles.css'
 import SortedDraftPlayerList from './SortedDraftPlayerList';
 
 class Draft extends Component {
     state ={
-        selectedPlayers: {},
-        selectedForwards: 0,
-        selectedDefense: 0,
-        selectedGoalies: 0,
-        numberOfForwards: 10,
-        numberOfDefense: 5,
-        numberOfGoalies: 3,
         forwards: this.props.forwards,
         defense: this.props.defense,
     }
 
     componentDidMount(){
-        this.state.forwards.forEach(player => {
-            this.props.getPlayerStats(player.id, 'Forward')
-        })
-        this.state.defense.forEach(player => {
-            this.props.getPlayerStats(player.id, 'Defense')
-        })
         this.setState({
             forwards: this.props.forwards,
             defense: this.props.defense
         })
     }
 
-    onSubmit = () => {
+    onClick = (e, index, position) => {
+        if(position === "Forward"){
+            let forwards = this.state.forwards
+            if(this.state.forwards[index].drafted === 1){
+                forwards[index].drafted = 2
+            } else if(this.state.forwards[index].drafted === 2) {
+                forwards[index].drafted = 0
+            } else {
+                forwards[index].drafted = 1
+            }
+            this.setState({
+                forwards
+            })
+        }
+        if(position === "Defense"){
+            let defense = this.state.defense
+            if(this.state.defense[index].drafted === 1){
+                defense[index].drafted = 2
+            } else if(this.state.defense[index].drafted === 2) {
+                defense[index].drafted = 0
+            } else {
+                defense[index].drafted = 1
+            }
+            this.setState({
+                defense
+            })
+        }
     }
 
     render() {
-        // if(!this.props.auth.uid) return <Redirect to='/SignIn'/>
-
         let forwards = this.props.forwards
         let defense = this.props.defense
 
-        let filteredForwards = []
-        forwards.forEach(player =>{
-            let newPlayer = {}
-            // newPlayer.
-        })
-
         if(forwards.length > 0){
-            var forwardsSortedDivs = <SortedDraftPlayerList playerList={forwards}/>
+            var forwardsSortedDivs = <SortedDraftPlayerList playerList={forwards} onClick={this.onClick} position="Forward"/>
         }
         if(defense.length > 0) {
-            var defenseSortedDivs = <SortedDraftPlayerList playerList={defense} />
+            var defenseSortedDivs = <SortedDraftPlayerList playerList={defense} onClick={this.onClick} position="Defense" />
         }
         
         return (
@@ -63,45 +66,24 @@ class Draft extends Component {
                     <div className="side-container card grey lighten-5">
                         <h5 className="center">Forwards</h5>
                         {forwardsSortedDivs}
-                        
-                        <p className="green-text">
-                            {this.state.numberOfForwards - this.state.selectedForwards} Forwards Remaining
-                        </p>
                     </div>
                     <div className="side-container card grey lighten-5">
                         <h5 className="center">Defence</h5>
                         {defenseSortedDivs}
-                        {/* {JSON.stringify(forwards)} */}
-                        <p className="green-text">
-                            {this.state.numberOfDefense - this.state.selectedDefense} Defense Remaining
-                        </p>
                     </div>
                 </div>
-                <p className="red-text center">{this.state.error}</p>
-                <div className="center">
-                    {/* {status} */}
-                    <Button variant="contained" color="secondary" onClick={this.onSubmit}>
-                        Submit
-                    </Button>
-                </div>
-                
             </div>
         )
     }
 }
 const mapStateToProps = state => {
     return {
-        topPlayers: state.topPlayers,
-        auth: state.firebase.auth,
-        displayName: state.firebase.profile.displayName,
-        selectedTeams: state.selectedTeams,
         forwards: state.forwards,
         defense: state.defense
     };
 };
 
 const mapDispatchToProps = {
-    submitTeam,
     saveToDB,
     loadForwards, 
     loadDefense,
