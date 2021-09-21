@@ -50,6 +50,7 @@ class NavbarComponent extends Component {
                     {signInLink}
                     <NavLink className="black-text" to='/draft'>Draft</NavLink>
                     <NavLink className="black-text" to='/draftboard'>Draft Board</NavLink>
+                    <NavLink className="black-text" to='/draftedTeams'>Drafted Teams</NavLink>
                 </Navbar>
             </div>
 

@@ -40,6 +40,20 @@ class DraftBoard extends Component {
                 draftees: this.props.draftOrder,
             })
         }
+        else if(this.compareArrays(this.state.draftees, this.props.draftOrder)){
+            this.setState({
+                draftees: this.props.draftOrder,
+            })
+        }
+    }
+
+    compareArrays(arr1, arr2){
+        for(var i = 0; i < arr1.length; i++){
+            if(arr1[i].drafted !== arr2[i].drafted){
+                return true
+            }
+        }
+        return false
     }
 
     onClick = (e, i) => {
@@ -108,7 +122,6 @@ class DraftBoard extends Component {
             drafteEntry = (<form>
                     <label>
                         <TextInput options={this.state.names} onSelect={(value) => this.handleRequestOptions(value, index)} />
-                    {/* <textarea value={this.state.value[index]} onChange={(e) => this.handleChange(e, index)} /> */}
                     </label>
                     <input type="submit" value="Submit" onClick={(e) => this.handleSubmit(e, index)}/>
                 </form>)
@@ -118,6 +131,7 @@ class DraftBoard extends Component {
         return (
             <div key={index} className={className} onClick={(e) => this.onClick(e, index)}>
                 <img className="photo" src={item.logo}/>
+                <span className="right small">{index + 1}</span>
                 <p className="title">{item.title}</p>
                 {drafteEntry}
             </div>
@@ -140,11 +154,9 @@ class DraftBoard extends Component {
         return (
             <div>
                 <div className="buttonDiv">
-                <button className="button" onClick={() => this.onSubmit()}>SWAP</button>
+                <button className="button btn pink-lighten-1 z-depth-0" onClick={() => this.onSubmit()}>SWAP</button>
             </div>
             {grid}
-            
-            
             </div>
         )
     }

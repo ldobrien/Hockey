@@ -10,6 +10,7 @@ import Scoreboard from './components/Scoreboard';
 import Trade from './components/Trade';
 import Draft from './components/Draft';
 import DraftBoard from './components/DraftBoard';
+import DraftedTeam from './components/DraftedTeam';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                   <Route exact path="/trade" component={Trade}/>
                   <Route exact path="/draft" component={Draft}/>
                   <Route exact path="/draftboard" component={DraftBoard}/>
+                  <Route exact path="/draftedTeams" component={DraftedTeam}/>
               </Switch>
           </div>
         </BrowserRouter>
