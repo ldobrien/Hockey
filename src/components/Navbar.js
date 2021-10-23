@@ -51,6 +51,8 @@ class NavbarComponent extends Component {
                     <NavLink className="black-text" to='/draft'>Draft</NavLink>
                     <NavLink className="black-text" to='/draftboard'>Draft Board</NavLink>
                     <NavLink className="black-text" to='/draftedTeams'>Drafted Teams</NavLink>
+                    <NavLink className="black-text" to='/trades'>Trades</NavLink>
+                    <NavLink className="black-text" to='/'>Scoreboard</NavLink>
                 </Navbar>
             </div>
 

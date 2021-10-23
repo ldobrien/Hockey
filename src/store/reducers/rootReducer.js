@@ -8,6 +8,7 @@ import scoreboardReducer from "./scoreboardReducer";
 import draftForwardsReducer from "./draftForwardsReducer";
 import draftDefenseReducer from "./draftDefenseReducer";
 import draftOrderReducer from "./draftOrderReducer";
+import ownersReducer from "./ownersReducer"
 
 const rootReducer = combineReducers({
     teamRoster: teamRosterReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     forwards: draftForwardsReducer,
     defense: draftDefenseReducer,
     draftOrder: draftOrderReducer,
+    owners: ownersReducer,
 })
 
 export default rootReducer;

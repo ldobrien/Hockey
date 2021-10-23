@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {compose} from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import './styles.css'
+import '../styles.css'
 
 class DraftedPlayerStats extends Component {
     state ={
@@ -41,7 +41,7 @@ class DraftedPlayerStats extends Component {
         const forwards = []
         const defense = []
         entry.forEach(player => {
-            if(this.state.forwardsNames.includes(player.slice(0,-1))){
+            if(this.state.forwardsNames.includes(player.slice(0,-1)) || this.state.forwardsNames.includes(player)){
                 forwards.push(player)
             } else {
                 defense.push(player)

@@ -136,3 +136,16 @@ body {
   .small{
     font-size: 10px;
   }
+
+  .inner-container{
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-left: 1px solid red;
+    border-bottom: 1px solid red;
+    border-right: 1px solid red;
+    border-top: 1px solid red;
+    border-radius: 1px;
+  }

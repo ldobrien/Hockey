@@ -11,6 +11,65 @@ export const submitDraftBoard = (draftorder) => {
     }
 }
 
+
+export const submitDraftedTeams = (owner, team) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        // players.forEach(player=>{
+            firestore.collection("owners").doc(owner).set(
+                {
+                    team: team
+                }
+            )
+        
+    }
+}
+
+export const loadOwners =() => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        
+        const firestore = getFirestore();
+        let ownerPlayerMap = new Map()
+            firestore.collection("owners").get()
+            .then((players) => {
+                players.forEach((doc) => {
+                    ownerPlayerMap.set(doc.id, doc.data())
+                })
+            })
+            .then(() => {
+                dispatch(
+                    { 
+                        type: "GET_OWNERS",
+                        owners: ownerPlayerMap
+                    })
+                })
+    }
+}
+
+export const updateOwners = (left, right) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection("owners").doc(left[0]).set(
+            {
+                team: left[1]
+            }
+        )
+        firestore.collection("owners").doc(right[0]).set(
+            {
+                team: right[1]
+            }
+        )
+        .then(() => {
+            dispatch(
+                { 
+                    type: "UPDATE_OWNERS",
+                    left: left,
+                    right: right
+                })
+            })
+    }
+}
+
 export const loadDraftOrder = () => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();

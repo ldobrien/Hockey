@@ -31189,5 +31189,6 @@ export default {
         }
       }
     ],
-    draftOrder: []
+    draftOrder: [],
+    owners: new Map()
 };

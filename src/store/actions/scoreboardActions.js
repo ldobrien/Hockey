@@ -7,7 +7,7 @@ export const loadScoreboard = (teams) => {
                 let playerId = Object.keys(team)[index]
                 let currkey = key
                 let player = team[playerId]
-                fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20202021')
+                fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20212022')
                     .then(response => response.json())
                     .then(json => 
                         {

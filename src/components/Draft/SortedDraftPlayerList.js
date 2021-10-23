@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
-import './styles.css'
+import '../styles.css'
 import DraftPlayer from './DraftPlayer';
 
 class SortedDraftPlayerList extends Component {
