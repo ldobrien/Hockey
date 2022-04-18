@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import Dropdown from 'react-dropdown';
-import {loadOwners, updateOwners} from '../../store/actions/draftOrderActions'
+import {loadOwners, updateOwners, submitDraftedTeams} from '../../store/actions/draftOrderActions'
 import 'react-dropdown/style.css';
 import '../styles.css'
 import TeamPlayer from './TeamPlayer';
@@ -20,15 +20,96 @@ class Trade extends Component {
         highlighted: [new Set(),new Set()],
         currentLeftOwner: "",
         currentRightOwner: "",
-        updateState: false
+        updateState: false,
+        allPlayers: new Set(),
+        once: true,
+        stats: []
     }
 
     componentDidMount(){
+    
+        // fetch(`https://statsapi.web.nhl.com/api/v1/teams`)
+        // .then(response => response.json())
+        // .then(json => {
+        //     json.teams.forEach(team => {
+        //         fetch(`https://statsapi.web.nhl.com/api/v1/teams/`+team.id+`?expand=team.roster`)
+        //         .then(response => response.json())
+        //         .then(json => {
+        //             // const stats = []
+        //             let roster = json.teams[0].roster.roster
+        //             let ids = roster.map(i => i.person.id)
+
+        //             ids.forEach((id, index) => {
+        //                 fetch(`https://statsapi.web.nhl.com/api/v1/people/`+id+'/stats?stats=statsSingleSeason&season=20212022')
+        //                 .then(response => response.json())
+        //                 .then(json => {
+                            
+        //                     if(json.stats[0].splits[0]){
+        //                         // console.log(json.stats[0].splits[0])
+        //                         const currPlayerStats = json.stats[0].splits[0].stat
+        //                         // console.log(id, roster[index], json.stats[0].splits[0].stat)
+        //                         let archived = { 
+        //                             goals: currPlayerStats.goals | 0, 
+        //                             assists: currPlayerStats.assists | 0, 
+        //                         }
+        //                         archived.points = 2 * archived.goals + archived.assists
+        //                         let newPlayer = {
+        //                             fullName: roster[index].person.fullName,
+        //                             active: true,
+        //                             id: id,
+        //                             archivePoints: archived,
+        //                             excludedPoints: { goals: 0, assists: 0, points: 0},
+        //                             points: 0,
+        //                             goals: 0,
+        //                             assists: 0
+        //                         }
+        //                         // stats.push(newPlayer)
+                                
+        //                         let newStats = [...this.state.stats, newPlayer]
+        //                         // let newStats = [...this.state.stats, ...stats]
+        //                         this.setState({
+        //                             stats: newStats
+        //                         })
+        //                     }
+        //                     else {
+        //                         // console.log(json)
+        //                     }
+        //                 })
+                        
+        //             })
+        //         })
+        //     })
+        // })
+
+
         this.props.loadOwners()
+        // let allPlayers = new Set()
+        // this.state.stats.forEach(player => {
+        //     allPlayers.add(player.fullName)
+        // })
+        // // forwards.forEach(player => {
+        // //     allPlayers.add(player.fullName)
+        // // })
+        // // defense.forEach(player => {
+        // //     allPlayers.add(player.fullName) 
+        // // })
+        // this.setState({
+        //     allPlayers,
+        // })
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps, prevState){
+        // if(this.state.stats.length !== prevState.stats.length){
+        //     let allPlayers = new Set()
+        //     this.state.stats.forEach(player => {
+        //         allPlayers.add(player.fullName)
+        //     })
+        //     this.setState({
+        //         allPlayers,
+        //     })
+        // }
         if(this.props.owners !== undefined && this.state.updateState === false){
+            console.log("OWNERS", this.props.owners)
             this.props.loadOwnerScores(this.props.owners)
             this.setState({
                 updateState: true,
@@ -36,8 +117,32 @@ class Trade extends Component {
             })
         }
         else if(this.props.owners !== prevProps.owners){
+            // let allPlayers = this.state.allPlayers
+            // let keys = Array.from(this.props.owners.keys())
+            // for(var i = 0; i < keys.length; i++){
+            //     if(keys[i] === "totals" || keys[i] === "undrafted"){
+            //         continue
+            //     }
+            //     let team = this.props.owners.get(keys[i])
+            //     team.forEach(player => {
+            //         allPlayers.delete(player.fullName)
+            //         allPlayers.delete(player.fullName + " ")
+            //     })
+            // }
+            // let allPlayersArr = []
+            // Array.from(allPlayers).forEach(player => {
+            //     let currPlayer = this.state.stats.find(i => i.fullName === player)
+                
+            //     allPlayersArr.push(currPlayer)
+            // })
+            // if(this.state.once){
+                // console.log(allPlayersArr)
+                // this.props.submitDraftedTeams("undrafted", allPlayersArr)
+            // }
+            
             this.setState({
-                owners: this.props.owners
+                owners: this.props.owners,
+                // once: false
             })
         }
     }
@@ -98,23 +203,22 @@ class Trade extends Component {
 
         rightHighlights.forEach(idx => {
             let newPlayer = {}
-            this.deepCopy(newPlayer, this.state.rightTradeTeam[idx])
-            newPlayer.excludedPoints = { 
-                goals: this.state.rightTradeTeam[idx].goals, 
-                assists: this.state.rightTradeTeam[idx].assists, 
-                points: this.state.rightTradeTeam[idx].points
-            }
+            let old = this.state.rightTradeTeam[idx]
+            this.deepCopy(newPlayer, old)
+            newPlayer.excludedPoints.goals += this.state.rightTradeTeam[idx].goals
+            newPlayer.excludedPoints.assists += this.state.rightTradeTeam[idx].assists
+            newPlayer.excludedPoints.points += this.state.rightTradeTeam[idx].points
+
             newPlayer.archivePoints = { goals: 0, assists: 0, points: 0}
             newLeft.push(newPlayer)
         })
         lefthighlights.forEach(idx => {
             let newPlayer = {}
-            this.deepCopy(newPlayer, this.state.leftTradeTeam[idx])
-            newPlayer.excludedPoints = { 
-                goals: this.state.leftTradeTeam[idx].goals, 
-                assists: this.state.leftTradeTeam[idx].assists, 
-                points: this.state.leftTradeTeam[idx].points
-            }
+            let old = this.state.leftTradeTeam[idx]
+            this.deepCopy(newPlayer, old)
+            newPlayer.excludedPoints.goals += this.state.leftTradeTeam[idx].goals
+            newPlayer.excludedPoints.assists += this.state.leftTradeTeam[idx].assists
+            newPlayer.excludedPoints.points += this.state.leftTradeTeam[idx].points
             newPlayer.archivePoints = { goals: 0, assists: 0, points: 0}
             newRight.push(newPlayer)
         })
@@ -127,11 +231,12 @@ class Trade extends Component {
             }
         }
         for(var j = lefthighlights.length - 1; j >= 0; j--){
+            // console.log(newLeft[lefthighlights[j]])
             newLeft[lefthighlights[j]].active = false
             newLeft[lefthighlights[j]].archivePoints = {
-                goals: newLeft[lefthighlights[j]].goals, 
-                assists: newLeft[lefthighlights[j]].assists, 
-                points: newLeft[lefthighlights[j]].points,
+                goals: newLeft[lefthighlights[j]].goals | 0, 
+                assists: newLeft[lefthighlights[j]].assists | 0, 
+                points: newLeft[lefthighlights[j]].points | 0,
             }
         }
 
@@ -142,18 +247,40 @@ class Trade extends Component {
             owners: new Map([...prevState.owners, [this.state.currentLeftOwner, newLeft], [this.state.currentRightOwner, newRight]]) 
           }));
 
+          console.log(leftOwner, newLeft, rightOwner, newRight)
         this.props.updateOwners([leftOwner, newLeft], [rightOwner, newRight])
     }
 
     deepCopy = (newPlayer, oldPlayer) => {
+        // console.log("old", oldPlayer)
+        // newPlayer = JSON.parse(JSON.stringify(oldPlayer))
         newPlayer.fullName = oldPlayer.fullName
         newPlayer.id = oldPlayer.id
         newPlayer.active = oldPlayer.active
         newPlayer.points = oldPlayer.points
         newPlayer.goals = oldPlayer.goals
         newPlayer.assists = oldPlayer.assists
-        newPlayer.archivePoints = {...oldPlayer.archivePoints}
-        newPlayer.excludedPoints = oldPlayer.excludedPoints
+        // newPlayer.archivePoints.goals = oldPlayer.archivePoints.goals
+        // newPlayer.archivePoints = {...oldPlayer.archivePoints}
+        // newPlayer.excludedPoints = JSON.parse(JSON.stringify(oldPlayer.excludedPoints))
+        // console.log(JSON.parse(JSON.stringify(oldPlayer.excludedPoints)))
+        // newPlayer.excludedPoints = {}
+        // console.log(newPlayer.excludedPoints)
+        // newPlayer.excludedPoints.goals = 10
+        // console.log(newPlayer.excludedPoints)
+        //  = {goals: 5, assists: 0, points: 0}
+        let excludedPoints = {}
+        excludedPoints.goals = oldPlayer.excludedPoints.goals
+        excludedPoints.assists = oldPlayer.excludedPoints.assists
+        excludedPoints.points = oldPlayer.excludedPoints.points
+        newPlayer.excludedPoints = excludedPoints
+        // newPlayer.excludedPoints.goals = excludedPoints.goals
+        // console.log("old/new .excludedPoints.goals", excludedPoints.goals, newPlayer.excludedPoints.goals)
+        // newPlayer.excludedPoints.assists = excludedPoints.assists
+        // console.log("old/new .excludedPoints.assists", excludedPoints.assists, newPlayer.excludedPoints.assists)
+        // newPlayer.excludedPoints.points = excludedPoints.points
+
+        console.log("old/new", oldPlayer, newPlayer, newPlayer.excludedPoints)
     }
 
     formatArray = (array, side) => {
@@ -172,7 +299,12 @@ class Trade extends Component {
     }
 
     render() {
+        // console.log(this.state.stats)
         let owners = Array.from(this.state.owners.keys()) 
+        let totalsIndex = owners.findIndex(i => i === "totals")
+        if(totalsIndex >= 0){
+            owners.splice(totalsIndex, 1)
+        }
         return (
             <Protect sha512='fa3ccb87a8c525d54c2c087df3524db8880ecccdb295b5aac7977cbc741a490b36eaea81a9f4fdeadc70c917ca3086deb7432ac0011c34861aa4ae71c69a2ec9'>
             <div className="inside-container">
@@ -202,14 +334,17 @@ class Trade extends Component {
 
 const mapStateToProps = state => {
     return {
-        owners: state.owners
+        owners: state.owners,
+        forwards: state.forwards,
+        defense: state.defense,
     };
 };
 
 const mapDispatchToProps = {
     loadOwners,
     updateOwners,
-    loadOwnerScores
+    loadOwnerScores,
+    submitDraftedTeams
 };
 
 export default compose(

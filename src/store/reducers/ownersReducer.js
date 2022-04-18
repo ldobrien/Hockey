@@ -44,6 +44,34 @@ export const addScores = (state, action) => {
     return owners
 }
 
+export const addArchivedScores = (state, action) => {
+    let owners = new Map()
+    let keys = Array.from(state.keys())
+    keys.forEach(owner => {
+        owners.set(owner, state.get(owner))
+    })
+    let updatedOwner = action.owner
+    let team = state.get(updatedOwner)
+    let playerToUpdate = team.find(i => i.id === action.player.id)
+
+    playerToUpdate.goals = action.payload.archivePoints.goals ? 
+        action.payload.archivePoints.goals - playerToUpdate.excludedPoints.goals : 0
+    playerToUpdate.assists = action.payload.archivePoints.assists ? 
+        action.payload.archivePoints.assists - playerToUpdate.excludedPoints.assists : 0
+    playerToUpdate.points = 2 * playerToUpdate.goals + playerToUpdate.assists
+    let currOwnerTotal = {...state.get("totals")}
+   
+    if(currOwnerTotal[updatedOwner] === undefined){
+        currOwnerTotal[updatedOwner] = playerToUpdate.points
+    } else {
+        currOwnerTotal[updatedOwner] = currOwnerTotal[updatedOwner] + playerToUpdate.points
+    }
+    owners.set("totals", currOwnerTotal)
+    owners.set(updatedOwner, team)
+
+    return owners
+}
+
 const ownersReducer = (state = initialState.owners, action) => {
     switch(action.type){
         case "GET_OWNERS":
@@ -52,6 +80,8 @@ const ownersReducer = (state = initialState.owners, action) => {
             return updateOwners(state, action);
         case "ADD_SCORES":
             return addScores(state, action);
+        case "ADD_ARCHIVED_SCORES":
+            return addArchivedScores(state, action);
         default:
             return state;
     }

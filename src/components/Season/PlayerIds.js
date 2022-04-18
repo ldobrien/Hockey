@@ -11747,20 +11747,30 @@ let playerDetails = [
   ]
 
 export const getPlayerId = (member) => {
-        let newPlayer = {}
-        let player = playerDetails.find(i => {
-            return  i.person.fullName === member.slice(0,-1)
-        })
-        if(player !== undefined){
-            newPlayer.fullName = member.slice(0,-1)
-            newPlayer.id = player.person.id
-            newPlayer.active = true
-            newPlayer.archivePoints = { goals: 0, assists: 0, points: 0}
-            newPlayer.excludedPoints = { goals: 0, assists: 0, points: 0}
-            newPlayer.points = 0
-        } else {
-            console.log("unable to find player: ", member)
-            newPlayer.fullName = member.slice(0,-1)
-        }
-        return newPlayer
+  let newPlayer = {}
+  let player = playerDetails.find(i => {
+      return  i.person.fullName === member.slice(0,-1)
+  })
+  if(player !== undefined){
+      newPlayer.fullName = member.slice(0,-1)
+      newPlayer.id = player.person.id
+      newPlayer.active = true
+      newPlayer.archivePoints = { goals: 0, assists: 0, points: 0}
+      newPlayer.excludedPoints = { goals: 0, assists: 0, points: 0}
+      newPlayer.points = 0
+  } else {
+      console.log("unable to find player: ", member)
+      newPlayer.fullName = member.slice(0,-1)
+  }
+  return newPlayer
+}
+
+export const getGoalies = () => {
+  let goalies = []
+  playerDetails.forEach(player => {
+    if(player.position.type === "Goalie"){
+      goalies.push(player)
+    }
+  })
+  return goalies
 }

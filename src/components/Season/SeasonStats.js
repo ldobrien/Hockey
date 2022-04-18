@@ -36,8 +36,6 @@ class SeasonStats extends Component {
         //         }
         //     )
         // }
-
-        
     }
 
     componentDidUpdate(prevProps){
@@ -129,7 +127,7 @@ class SeasonStats extends Component {
             teamStats.push(this.playerHeader())
             currteam = ownersMap.get(owner)
 
-            if(owner !== "totals"){
+            if(owner !== "totals" && owner !== "undrafted"){
                 currteam.forEach(player => {
                     teamStats.push(this.renderPlayers(player))
                 })

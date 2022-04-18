@@ -1,20 +1,20 @@
 export const loadForwards = () => {
     return(dispatch, getState, {getFiresbase, getFirestore}) => {
-        const firestore = getFirestore();
-        const playersArr = []
-        firestore.collection('forwards').get()
-        .then((players) => {
-            players.forEach((doc) => {
-                playersArr.push(doc.data())
-            })
-        })
-        .then(() => {
-            dispatch(
-                { 
-                    type: "GET_FORWARDS",
-                    player: playersArr
-                })
-            })
+        // const firestore = getFirestore();
+        // const playersArr = []
+        // firestore.collection('forwards').get()
+        // .then((players) => {
+        //     players.forEach((doc) => {
+        //         playersArr.push(doc.data())
+        //     })
+        // })
+        // .then(() => {
+        //     dispatch(
+        //         { 
+        //             type: "GET_FORWARDS",
+        //             player: playersArr
+        //         })
+        //     })
     }
 }
 

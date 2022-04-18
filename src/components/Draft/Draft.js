@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {saveToDB} from '../../store/actions/teamActions'
-import {loadForwards, loadDefense, getPlayerStats} from '../../store/actions/draftActions'
 import {loadDraftOrder} from '../../store/actions/draftOrderActions'
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
@@ -187,9 +186,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     saveToDB,
-    loadForwards, 
-    loadDefense,
-    getPlayerStats,
     loadDraftOrder
 };
 

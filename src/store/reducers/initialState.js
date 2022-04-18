@@ -31190,5 +31190,585 @@ export default {
       }
     ],
     draftOrder: [],
-    owners: new Map()
+    owners: new Map(),
+    goalieDraftOrder: [],
+    goalieOwners: new Map(),
+    goalies: [
+      {
+        "id": 8473575,
+        "fullName": "Semyon Varlamov",
+        "position": "Goalie",
+        "team": "New York Islanders",
+        "teamId": 2,
+        "active": true
+      },
+      {
+        "id": 8471239,
+        "fullName": "Cory Schneider",
+        "position": "Goalie",
+        "team": "New York Islanders",
+        "teamId": 2,
+        "active": true
+      },
+      {
+        "id": 8478009,
+        "fullName": "Ilya Sorokin",
+        "position": "Goalie",
+        "team": "New York Islanders",
+        "teamId": 2,
+        "active": true
+      },
+      {
+        "id": 8478406,
+        "fullName": "Mackenzie Blackwood",
+        "position": "Goalie",
+        "team": "New Jersey Devils",
+        "teamId": 1,
+        "active": true
+      },
+      {
+        "id": 8473541,
+        "fullName": "Jonathan Bernier",
+        "position": "Goalie",
+        "team": "New Jersey Devils",
+        "teamId": 1,
+        "active": true
+      },
+      {
+        "id": 8475809,
+        "fullName": "Scott Wedgewood",
+        "position": "Goalie",
+        "team": "New Jersey Devils",
+        "teamId": 1,
+        "active": true
+      },
+      {
+        "id": 8482076,
+        "fullName": "Nico Daws",
+        "position": "Goalie",
+        "team": "New Jersey Devils",
+        "teamId": 1,
+        "active": true
+      },
+      {
+        "id": 8477465,
+        "fullName": "Tristan Jarry",
+        "position": "Goalie",
+        "team": "Pittsburgh Penguins",
+        "teamId": 5,
+        "active": true
+      },
+      {
+        "id": 8479193,
+        "fullName": "Casey DeSmith",
+        "position": "Goalie",
+        "team": "Pittsburgh Penguins",
+        "teamId": 5,
+        "active": true
+      },
+      {
+        "id": 8478048,
+        "fullName": "Igor Shesterkin",
+        "position": "Goalie",
+        "team": "New York Rangers",
+        "teamId": 3,
+        "active": true
+      },
+      {
+        "id": 8480382,
+        "fullName": "Alexandar Georgiev",
+        "position": "Goalie",
+        "team": "New York Rangers",
+        "teamId": 3,
+        "active": true
+      },
+      {
+        "id": 8474889,
+        "fullName": "Martin Jones",
+        "position": "Goalie",
+        "team": "Philadelphia Flyers",
+        "teamId": 4,
+        "active": true
+      },
+      {
+        "id": 8479394,
+        "fullName": "Carter Hart",
+        "position": "Goalie",
+        "team": "Philadelphia Flyers",
+        "teamId": 4,
+        "active": true
+      },
+      {
+        "id": 8476999,
+        "fullName": "Linus Ullmark",
+        "position": "Goalie",
+        "team": "Boston Bruins",
+        "teamId": 6,
+        "active": true
+      },
+      {
+        "id": 8480280,
+        "fullName": "Jeremy Swayman",
+        "position": "Goalie",
+        "team": "Boston Bruins",
+        "teamId": 6,
+        "active": true
+      },
+      {
+        "id": 8471679,
+        "fullName": "Carey Price",
+        "position": "Goalie",
+        "team": "Montréal Canadiens",
+        "teamId": 8,
+        "active": true
+      },
+      {
+        "id": 8474596,
+        "fullName": "Jake Allen",
+        "position": "Goalie",
+        "team": "Montréal Canadiens",
+        "teamId": 8,
+        "active": true
+      },
+      {
+        "id": 8478470,
+        "fullName": "Sam Montembeault",
+        "position": "Goalie",
+        "team": "Montréal Canadiens",
+        "teamId": 8,
+        "active": true
+      },
+      {
+        "id": 8467950,
+        "fullName": "Craig Anderson",
+        "position": "Goalie",
+        "team": "Buffalo Sabres",
+        "teamId": 7,
+        "active": true
+      },
+      {
+        "id": 8474682,
+        "fullName": "Dustin Tokarski",
+        "position": "Goalie",
+        "team": "Buffalo Sabres",
+        "teamId": 7,
+        "active": true
+      },
+      {
+        "id": 8475883,
+        "fullName": "Frederik Andersen",
+        "position": "Goalie",
+        "team": "Carolina Hurricanes",
+        "teamId": 12,
+        "active": true
+      },
+      {
+        "id": 8477293,
+        "fullName": "Antti Raanta",
+        "position": "Goalie",
+        "team": "Carolina Hurricanes",
+        "teamId": 12,
+        "active": true
+      },
+      {
+        "id": 8474636,
+        "fullName": "Michael Hutchinson",
+        "position": "Goalie",
+        "team": "Toronto Maple Leafs",
+        "teamId": 10,
+        "active": true
+      },
+      {
+        "id": 8475789,
+        "fullName": "Jack Campbell",
+        "position": "Goalie",
+        "team": "Toronto Maple Leafs",
+        "teamId": 10,
+        "active": true
+      },
+      {
+        "id": 8475852,
+        "fullName": "Petr Mrazek",
+        "position": "Goalie",
+        "team": "Toronto Maple Leafs",
+        "teamId": 10,
+        "active": true
+      },
+      {
+        "id": 8476341,
+        "fullName": "Anton Forsberg",
+        "position": "Goalie",
+        "team": "Ottawa Senators",
+        "teamId": 9,
+        "active": true
+      },
+      {
+        "id": 8476899,
+        "fullName": "Matt Murray",
+        "position": "Goalie",
+        "team": "Ottawa Senators",
+        "teamId": 9,
+        "active": true
+      },
+      {
+        "id": 8475683,
+        "fullName": "Sergei Bobrovsky",
+        "position": "Goalie",
+        "team": "Florida Panthers",
+        "teamId": 13,
+        "active": true
+      },
+      {
+        "id": 8481519,
+        "fullName": "Spencer Knight",
+        "position": "Goalie",
+        "team": "Florida Panthers",
+        "teamId": 13,
+        "active": true
+      },
+      {
+        "id": 8470880,
+        "fullName": "Brian Elliott",
+        "position": "Goalie",
+        "team": "Tampa Bay Lightning",
+        "teamId": 14,
+        "active": true
+      },
+      {
+        "id": 8476883,
+        "fullName": "Andrei Vasilevskiy",
+        "position": "Goalie",
+        "team": "Tampa Bay Lightning",
+        "teamId": 14,
+        "active": true
+      },
+      {
+        "id": 8477970,
+        "fullName": "Vitek Vanecek",
+        "position": "Goalie",
+        "team": "Washington Capitals",
+        "teamId": 15,
+        "active": true
+      },
+      {
+        "id": 8478492,
+        "fullName": "Ilya Samsonov",
+        "position": "Goalie",
+        "team": "Washington Capitals",
+        "teamId": 15,
+        "active": true
+      },
+      {
+        "id": 8470594,
+        "fullName": "Marc-Andre Fleury",
+        "position": "Goalie",
+        "team": "Chicago Blackhawks",
+        "teamId": 16,
+        "active": true
+      },
+      {
+        "id": 8480947,
+        "fullName": "Kevin Lankinen",
+        "position": "Goalie",
+        "team": "Chicago Blackhawks",
+        "teamId": 16,
+        "active": true
+      },
+      {
+        "id": 8471306,
+        "fullName": "Thomas Greiss",
+        "position": "Goalie",
+        "team": "Detroit Red Wings",
+        "teamId": 17,
+        "active": true
+      },
+      {
+        "id": 8477968,
+        "fullName": "Alex Nedeljkovic",
+        "position": "Goalie",
+        "team": "Detroit Red Wings",
+        "teamId": 17,
+        "active": true
+      },
+      {
+        "id": 8477424,
+        "fullName": "Juuse Saros",
+        "position": "Goalie",
+        "team": "Nashville Predators",
+        "teamId": 18,
+        "active": true
+      },
+      {
+        "id": 8478971,
+        "fullName": "Connor Ingram",
+        "position": "Goalie",
+        "team": "Nashville Predators",
+        "teamId": 18,
+        "active": true
+      },
+      {
+        "id": 8476412,
+        "fullName": "Jordan Binnington",
+        "position": "Goalie",
+        "team": "St. Louis Blues",
+        "teamId": 19,
+        "active": true
+      },
+      {
+        "id": 8478024,
+        "fullName": "Ville Husso",
+        "position": "Goalie",
+        "team": "St. Louis Blues",
+        "teamId": 19,
+        "active": true
+      },
+      {
+        "id": 8480925,
+        "fullName": "Pavel Francouz",
+        "position": "Goalie",
+        "team": "Colorado Avalanche",
+        "teamId": 21,
+        "active": true
+      },
+      {
+        "id": 8475311,
+        "fullName": "Darcy Kuemper",
+        "position": "Goalie",
+        "team": "Colorado Avalanche",
+        "teamId": 21,
+        "active": true
+      },
+      {
+        "id": 8477992,
+        "fullName": "Jonas Johansson",
+        "position": "Goalie",
+        "team": "Colorado Avalanche",
+        "teamId": 21,
+        "active": true
+      },
+      {
+        "id": 8474593,
+        "fullName": "Jacob Markstrom",
+        "position": "Goalie",
+        "team": "Calgary Flames",
+        "teamId": 20,
+        "active": true
+      },
+      {
+        "id": 8478435,
+        "fullName": "Dan Vladar",
+        "position": "Goalie",
+        "team": "Calgary Flames",
+        "teamId": 20,
+        "active": true
+      },
+      {
+        "id": 8470860,
+        "fullName": "Jaroslav Halak",
+        "position": "Goalie",
+        "team": "Vancouver Canucks",
+        "teamId": 23,
+        "active": true
+      },
+      {
+        "id": 8477967,
+        "fullName": "Thatcher Demko",
+        "position": "Goalie",
+        "team": "Vancouver Canucks",
+        "teamId": 23,
+        "active": true
+      },
+      {
+        "id": 8469608,
+        "fullName": "Mike Smith",
+        "position": "Goalie",
+        "team": "Edmonton Oilers",
+        "teamId": 22,
+        "active": true
+      },
+      {
+        "id": 8475156,
+        "fullName": "Mikko Koskinen",
+        "position": "Goalie",
+        "team": "Edmonton Oilers",
+        "teamId": 22,
+        "active": true
+      },
+      {
+        "id": 8476434,
+        "fullName": "John Gibson",
+        "position": "Goalie",
+        "team": "Anaheim Ducks",
+        "teamId": 24,
+        "active": true
+      },
+      {
+        "id": 8476932,
+        "fullName": "Anthony Stolarz",
+        "position": "Goalie",
+        "team": "Anaheim Ducks",
+        "teamId": 24,
+        "active": true
+      },
+      {
+        "id": 8471734,
+        "fullName": "Jonathan Quick",
+        "position": "Goalie",
+        "team": "Los Angeles Kings",
+        "teamId": 26,
+        "active": true
+      },
+      {
+        "id": 8477361,
+        "fullName": "Calvin Petersen",
+        "position": "Goalie",
+        "team": "Los Angeles Kings",
+        "teamId": 26,
+        "active": true
+      },
+      {
+        "id": 8473503,
+        "fullName": "James Reimer",
+        "position": "Goalie",
+        "team": "San Jose Sharks",
+        "teamId": 28,
+        "active": true
+      },
+      {
+        "id": 8478499,
+        "fullName": "Adin Hill",
+        "position": "Goalie",
+        "team": "San Jose Sharks",
+        "teamId": 28,
+        "active": true
+      },
+      {
+        "id": 8476914,
+        "fullName": "Joonas Korpisalo",
+        "position": "Goalie",
+        "team": "Columbus Blue Jackets",
+        "teamId": 29,
+        "active": true
+      },
+      {
+        "id": 8478007,
+        "fullName": "Elvis Merzlikins",
+        "position": "Goalie",
+        "team": "Columbus Blue Jackets",
+        "teamId": 29,
+        "active": true
+      },
+      {
+        "id": 8475660,
+        "fullName": "Cam Talbot",
+        "position": "Goalie",
+        "team": "Minnesota Wild",
+        "teamId": 30,
+        "active": true
+      },
+      {
+        "id": 8478039,
+        "fullName": "Kaapo Kahkonen",
+        "position": "Goalie",
+        "team": "Minnesota Wild",
+        "teamId": 30,
+        "active": true
+      },
+      {
+        "id": 8471750,
+        "fullName": "Ben Bishop",
+        "position": "Goalie",
+        "team": "Dallas Stars",
+        "teamId": 25,
+        "active": true
+      },
+      {
+        "id": 8471418,
+        "fullName": "Anton Khudobin",
+        "position": "Goalie",
+        "team": "Dallas Stars",
+        "teamId": 25,
+        "active": true
+      },
+      {
+        "id": 8474651,
+        "fullName": "Braden Holtby",
+        "position": "Goalie",
+        "team": "Dallas Stars",
+        "teamId": 25,
+        "active": true
+      },
+      {
+        "id": 8476945,
+        "fullName": "Connor Hellebuyck",
+        "position": "Goalie",
+        "team": "Winnipeg Jets",
+        "teamId": 52,
+        "active": true
+      },
+      {
+        "id": 8477480,
+        "fullName": "Eric Comrie",
+        "position": "Goalie",
+        "team": "Winnipeg Jets",
+        "teamId": 52,
+        "active": true
+      },
+      {
+        "id": 8475622,
+        "fullName": "Carter Hutton",
+        "position": "Goalie",
+        "team": "Arizona Coyotes",
+        "teamId": 53,
+        "active": true
+      },
+      {
+        "id": 8478872,
+        "fullName": "Karel Vejmelka",
+        "position": "Goalie",
+        "team": "Arizona Coyotes",
+        "teamId": 53,
+        "active": true
+      },
+      {
+        "id": 8475215,
+        "fullName": "Robin Lehner",
+        "position": "Goalie",
+        "team": "Vegas Golden Knights",
+        "teamId": 54,
+        "active": true
+      },
+      {
+        "id": 8476316,
+        "fullName": "Laurent Brossoit",
+        "position": "Goalie",
+        "team": "Vegas Golden Knights",
+        "teamId": 54,
+        "active": true
+      },
+      {
+        "id": 8476904,
+        "fullName": "Chris Driedger",
+        "position": "Goalie",
+        "team": "Seattle Kraken",
+        "teamId": 55,
+        "active": true
+      },
+      {
+        "id": 8475831,
+        "fullName": "Philipp Grubauer",
+        "position": "Goalie",
+        "team": "Seattle Kraken",
+        "teamId": 55,
+        "active": true
+      },
+      {
+        "id": 8478916,
+        "fullName": "Joey Daccord",
+        "position": "Goalie",
+        "team": "Seattle Kraken",
+        "teamId": 55,
+        "active": true
+      }
+    ]
 };
