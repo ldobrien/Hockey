@@ -13,8 +13,8 @@ class DraftBoard extends Component {
     render() {
         return (
             <div>
-            {/* <DraftPlayers /> */}
-            <DraftGoalies />
+            <DraftPlayers />
+            {/* <DraftGoalies /> */}
             </div>
         )
     }

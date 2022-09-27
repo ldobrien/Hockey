@@ -1,8 +1,10 @@
+const year = "-2022"
+
 export const submitDraftBoard = (draftorder) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         // players.forEach(player=>{
-            firestore.collection("draftOrder").doc("draftOrder").set(
+            firestore.collection("draftOrder").doc("draftOrder" + year).set(
                 {
                     draftorder: draftorder
                 }
@@ -15,7 +17,7 @@ export const submitDraftedTeams = (owner, team) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         // players.forEach(player=>{
-            firestore.collection("owners").doc(owner).set(
+            firestore.collection("owners" + year).doc(owner).set(
                 {
                     team: team
                 }
@@ -29,7 +31,7 @@ export const loadOwners =() => {
         
         const firestore = getFirestore();
         let ownerPlayerMap = new Map()
-            firestore.collection("owners").get()
+            firestore.collection("owners" + year).get()
             .then((players) => {
                 players.forEach((doc) => {
                     ownerPlayerMap.set(doc.id, doc.data())
@@ -49,12 +51,12 @@ export const updateOwners = (left, right) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         console.log(left[1])
-        firestore.collection("owners").doc(left[0]).set(
+        firestore.collection("owners" + year).doc(left[0]).set(
             {
                 team: left[1]
             }
         )
-        firestore.collection("owners").doc(right[0]).set(
+        firestore.collection("owners" + year).doc(right[0]).set(
             {
                 team: right[1]
             }
@@ -139,9 +141,20 @@ export const saveOrder = (order) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         console.log("SAVING", order)
         const firestore = getFirestore();
-        firestore.collection("draftOrder").doc("goalieDraftOrder").set(
+        firestore.collection("draftOrder").doc("goalieDraftOrder" + year).set(
             {
                 goaliedraftorder: order
+            }
+        )
+    }
+}
+
+export const saveDraftOrder = order => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection("draftOrder").doc("draftOrder" + year).set(
+            {
+                draftorder: order
             }
         )
     }
@@ -151,8 +164,9 @@ export const loadDraftOrder = () => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         // players.forEach(player=>{
-            firestore.collection("draftOrder").doc("draftOrder").get()
+            firestore.collection("draftOrder").doc("draftOrder" + year).get()
             .then((draftorder) => {
+                console.log(draftorder.data())
                 dispatch(
                     { 
                         type: "GET_DRAFT_ORDER",

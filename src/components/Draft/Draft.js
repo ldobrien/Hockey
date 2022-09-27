@@ -25,7 +25,6 @@ class Draft extends Component {
             this.props.loadDraftOrder()
         } else {
             let draftees = this.props.draftOrder
-
             this.UpdateDraftPicks(draftees)
         }
     }
@@ -38,6 +37,7 @@ class Draft extends Component {
     }
 
     UpdateDraftPicks = (draftees) => {
+
         let owners = new Map()
         let forwards = this.state.forwards
         let defense = this.state.defense
@@ -186,7 +186,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     saveToDB,
-    loadDraftOrder
+    loadDraftOrder,
+    
 };
 
 export default compose(

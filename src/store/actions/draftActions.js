@@ -42,45 +42,45 @@ export const loadDefense = () => {
 export const getPlayerStats = (playerId, position) => {
     if(position === 'Forward'){
         return (dispatch) => { 
-            dispatch(
-            { 
-                type: "GET_FORWARDS_STATS",
-            })
-            // fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20202021')
-            // .then(response => response.json())
-            // .then(json => 
-            //     {
-            //         // console.log(json)
-            //     dispatch(
-            //         { 
-            //             type: "GET_FORWARDS_STATS",
-            //             payload: json.stats[0].splits[0],
-            //             position: position,
-            //             playerId: playerId
-            //         })
-            //     }
-            // )
+            // dispatch(
+            // { 
+            //     type: "GET_FORWARDS_STATS",
+            // })
+            fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20212022')
+            .then(response => response.json())
+            .then(json => 
+                {
+                    // console.log(json)
+                dispatch(
+                    { 
+                        type: "GET_FORWARDS_STATS",
+                        payload: json.stats[0].splits[0],
+                        position: position,
+                        playerId: playerId
+                    })
+                }
+            )
         }
     } else {
         return (dispatch) => { 
+                // dispatch(
+                //     { 
+                //         type: "GET_DEFENSE_STATS",
+                //     })
+            fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20212022')
+            .then(response => response.json())
+            .then(json => 
+                {
+                    // console.log(json)
                 dispatch(
                     { 
                         type: "GET_DEFENSE_STATS",
+                        payload: json.stats[0].splits[0],
+                        position: position,
+                        playerId: playerId
                     })
-            // fetch(`https://statsapi.web.nhl.com/api/v1/people/`+playerId+'/stats?stats=statsSingleSeason&season=20202021')
-            // .then(response => response.json())
-            // .then(json => 
-            //     {
-            //         // console.log(json)
-            //     dispatch(
-            //         { 
-            //             type: "GET_DEFENSE_STATS",
-            //             payload: json.stats[0].splits[0],
-            //             position: position,
-            //             playerId: playerId
-            //         })
-            //     }
-            // )
+                }
+            )
         }
     }
 

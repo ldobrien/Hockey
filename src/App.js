@@ -13,6 +13,7 @@ import DraftBoard from './components/Draft/DraftBoard';
 import DraftedTeam from './components/Draft/DraftedTeam';
 import Trades from "./components/Season/Trades"
 import SeasonStats from "./components/Season/SeasonStats"
+import DraftOrder from './components/Draft/DraftOrder';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                   <Route exact path="/draftedTeams" component={DraftedTeam}/>
                   <Route exact path="/trades" component={Trades}/>
                   <Route exact path="/" component={SeasonStats}/>
+                  <Route exact path="/DraftOrder" component={DraftOrder} />
               </Switch>
           </div>
         </BrowserRouter>

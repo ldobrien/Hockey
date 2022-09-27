@@ -16,6 +16,9 @@ class NavbarComponent extends Component {
         const tradeLinks = this.props.auth ? 
             <NavLink className="black-text" to="/trade">Trade</NavLink>
             : null
+        const DraftOrder = this.props.auth ? 
+            <NavLink className="black-text" to="/DraftOrder">Draft Order</NavLink>
+            : null
         const signUpLink = this.props.auth ? 
             null 
             : <NavLink className="black-text" to="/SignUp">Sign Up</NavLink>
@@ -48,6 +51,7 @@ class NavbarComponent extends Component {
                     {/* <NavLink className="black-text" to='/scoreboard'>Scoreboard</NavLink> */}
                     {signUpLink}
                     {signInLink}
+                    {DraftOrder}
                     <NavLink className="black-text" to='/draft'>Draft</NavLink>
                     <NavLink className="black-text" to='/draftboard'>Draft Board</NavLink>
                     <NavLink className="black-text" to='/draftedTeams'>Drafted Teams</NavLink>

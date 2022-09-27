@@ -31,7 +31,7 @@ class DraftBoard extends Component {
         this.setState({
             forwards: this.props.forwards,
             defense: this.props.defense,
-            names
+            names // this doesn't filter drafted players on refresh
         })
     }
 
@@ -99,9 +99,12 @@ class DraftBoard extends Component {
     handleSubmit = (e, index) => {
         e.preventDefault()
         let drafted = this.state.draftees
+        let names = this.state.names
+        names.splice(names.indexOf(this.state.value[index].trim()), 1)
         drafted[index].drafted = this.state.value[index]
         this.setState({
             draftees: drafted,
+            names
         }, this.props.submitDraftBoard(this.state.draftees))
       }
 
@@ -124,7 +127,7 @@ class DraftBoard extends Component {
                     <label>
                         <TextInput regex={/^[a-zA-Z\s]+$/} matchAny="true" options={this.state.names} onSelect={(value) => this.handleRequestOptions(value, index)} />
                     </label>
-                    <input type="submit" value="Submit" onClick={(e) => this.handleSubmit(e, index)}/>
+                    {this.props.auth? <input type="submit" value="Submit" onClick={(e) => this.handleSubmit(e, index)}/> : <div/>}
                 </form>)
         } else {
             drafteEntry = <p>{item.drafted}</p>
@@ -181,13 +184,15 @@ class DraftBoard extends Component {
         grid.push(elems)
         return (
             <div>
-            <div>
-                <div className="buttonDiv">
-                <button className="button btn pink-lighten-1 z-depth-0" onClick={() => this.onSubmit()}>SWAP</button>
-            </div>
-            {grid}
-            </div>
-            <button onClick={this.draftComplete}>DRAFT COMPLETE</button>
+                <div>
+                    <div className="buttonDiv">
+                    {this.props.auth? <button className="button btn pink-lighten-1 z-depth-0" onClick={() => this.onSubmit()}>SWAP</button> : <div/>}
+                        <div className="button playerCount">//TODO</div>
+                    </div>
+                    
+                    {grid}
+                </div>
+                {this.props.auth? <button onClick={this.draftComplete}>DRAFT COMPLETE</button> : <div/>}
             </div>
         )
     }
@@ -198,6 +203,7 @@ const mapStateToProps = state => {
         draftOrder: state.draftOrder,
         forwards: state.forwards,
         defense: state.defense,
+        auth: state.firebase.auth.uid
     };
 };
 

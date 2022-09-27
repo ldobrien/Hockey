@@ -9,11 +9,11 @@ export const loadOwnerScores = (ownerTeamMap) => {
             let currOwner = owner
             var team = ownerTeamMap.get(owner)
             for(var player of team){
-                if(player.fullName === "Tim Stützle"){
-                    console.log("TIM", player)
-                }
+                // if(player.fullName === "Tim Stützle"){
+                //     console.log("TIM", player)
+                // }
                 if(!player.active){
-                    console.log("inactive", player)
+                    // console.log("inactive", player)
                     dispatch(
                         { 
                             type: "ADD_ARCHIVED_SCORES",
@@ -23,7 +23,7 @@ export const loadOwnerScores = (ownerTeamMap) => {
                     })
                 } else {
                     let currPlayer = player
-                    fetch(`https://statsapi.web.nhl.com/api/v1/people/`+player.id+'/stats?stats=statsSingleSeason&season=20212022')
+                    fetch(`https://statsapi.web.nhl.com/api/v1/people/`+player.id+'/stats?stats=statsSingleSeason&season=20222023')
                     .then(response => response.json())
                     .then(json => {
                         

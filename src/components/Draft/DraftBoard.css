@@ -75,7 +75,7 @@ body {
   }
 
   .buttonDiv{
-    display: flex;
+    /* display: flex; */
     justify-content: space-around;
     align-items: flex-start;
     height: 2400px;
@@ -85,6 +85,13 @@ body {
   .button {
     position: sticky;
     top: 0;
+    height: 250px;
+    width: 250px;
+  }
+
+  .playerCount {
+    position: sticky;
+    top: 250px;
     height: 250px;
     width: 250px;
   }
@@ -149,3 +156,5 @@ body {
     border-top: 1px solid red;
     border-radius: 1px;
   }
+
+  .sameRow{display:flex; flex-direction:row;}
